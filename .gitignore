@@ -1,3 +1,7 @@
+#Custom
+[Tt]est[Rr]esults/
+_nuget/
+
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
 [Oo]bj/
@@ -10,7 +14,7 @@ TestResults
 
 # User-specific files
 *.suo
-*.user
+*.usertest
 *.sln.docstates
 
 # Build results
