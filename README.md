@@ -6,7 +6,8 @@ Foundation library used at Macaw Netherlands. Some features are:
 - Standard Examine Search implementation  
 - Paged result views  
 - Frontend developers friendly dynamic models for Templates and Macro  
-- Basic converters  
+- Basic converters 
+- Testable controllers 
 
 Currently build on top of Umbraco 6.1.6.
 
