@@ -1,6 +1,20 @@
 #Custom
 [Tt]est[Rr]esults/
 _nuget/
+[Ee]xample/[Aa]pp_[Dd]ata/[Ll]ogs
+[Ee]xample/[Aa]pp_[Dd]ata/packages
+[Ee]xample/[Aa]pp_[Dd]ata/preview
+[Ee]xample/[Aa]pp_[Dd]ata/TEMP
+[Uu]mbraco.config
+[Aa]ccess.config
+[Ee]xample/[Ii]nstall
+[Ee]xample/[Mm]acroScripts
+[Ee]xample/[Mm]asterpages
+[Ee]xample/[Uu]mbraco
+[Ee]xample/[Uu]mbraco_[Cc]lient
+[Ee]xample/[Uu]serControls
+[Ee]xample/[Xx]slt]
+[Ee]xample/default.aspx
 
 # Build Folders (you can keep bin if you'd like, to store dlls and pdbs)
 [Bb]in/
@@ -46,7 +60,6 @@ ipch/
 *.aps
 *.ncb
 *.opensdf
-*.sdf
 
 # Visual Studio profiler
 *.psess

@@ -1,0 +1,32 @@
+@{
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+@section Main
+{
+	<header>
+        <h1>Zoek resultaten</h1>
+		<form>
+			<input type="text" id="q" name="q" style="width:100%" />
+			<input type="submit" value="zoeken" />
+		</form>
+
+		@if(Model.TotalResults > 0)
+		{
+			<p>Jouw zoek opdracht '@Model.Query' heeft @Model.TotalResults resultaten opgeleverd.</p>
+		}
+		else
+		{
+			<p>Er zijn geen items gevonden voor zoek opdracht: @Model.Query</p>
+		}
+    </header>
+
+	@foreach(var child in Model.Results)
+	{
+		<section>
+			<h2>@child.Titel</h2>
+			<p>@child.Intro</p>
+			<button onclick="window.location = '@child.Url'; return true;" style="width: 100%">Lees meer, deze tekst moet uit de dictionary komen...</button>
+		</section>
+	}
+}

@@ -1,0 +1,19 @@
+@{
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+@section Main
+{
+	<header>
+        <h1>@Model.Titel</h1>
+		@if(Model.Afbeelding.IsNull())
+		{
+			<p>Er is geen afbeelding ingegeven.</p>
+		}
+		<p><img src="@Model.Afbeelding.Url" width="400px" height="400px" /></p>
+
+        <i>@Model.Intro</i>
+    </header>
+	<section>
+		@Model.MainBody
+	</section>
+}

@@ -1,0 +1,30 @@
+@{
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+@section Main
+{
+	<header>
+        <h1>@Model.Titel</h1>
+        <i>@Model.Intro</i>
+		@Model.MainBody
+		<p>
+			Er zijn @Model.TotalResults nieuws items op deze site. Default page size is 10, maar dit kun je overrulen door de query string s mee te geven.
+		</p>
+    </header>
+
+	@foreach(var child in Model.Results)
+	{
+		<section>
+			<h2>@child.Titel</h2>
+			<p>@child.Intro</p>
+			<button onclick="window.location = '@child.Url'; return true;" style="width: 100%">Lees meer, deze tekst moet uit de dictionary komen...</button>
+		</section>
+	}
+	<section>
+	<h3>Pager</h3>
+	<p>Standaard is een resultaat pagina 10 items groot. De pager geeft 2 items per pagina weer.</p>
+	<p><a href="@(Model.Url)?s=2&p=1">1</a>
+	<a href="@(Model.Url)?s=2&p=2">2</a></p>
+	</section>
+}

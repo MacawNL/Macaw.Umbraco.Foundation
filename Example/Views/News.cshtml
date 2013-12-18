@@ -1,0 +1,15 @@
+@{
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+@section Main
+{
+	<header>
+        <h1>@Model.Titel</h1>
+        <i>- @Model.PublishDate.ToShortDateString() - @Model.Intro</i>
+		r: @Model.PublishAt
+		u: @Model.UpdateDate
+    </header>
+	<section>
+		@Model.MainBody
+	</section>
+}

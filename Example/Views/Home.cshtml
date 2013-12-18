@@ -1,0 +1,28 @@
+﻿@{
+	Layout = "~/Views/Shared/_layout.cshtml";
+}
+
+@section Main
+{
+	<header>
+        Rotatie snelheids: @Model.CarrouselContainer.Rotatiesnelheid<br />
+		<ul>
+		@foreach(var item in Model.CarrouselContainer.Children)
+		{
+			<li>@item.Afbeelding.Url @item.Titel - @item.Beschrijving @item.Link</li>
+		}
+		</ul>
+    </header>
+	<section>
+		<h1>@Model.Titel</h1>
+        <p>@Model.Intro</p>
+		<section>
+			@Model.MainBody
+		</section>
+	</section>
+}
+
+@section Side
+{
+	@Model.WidgetArea
+}
