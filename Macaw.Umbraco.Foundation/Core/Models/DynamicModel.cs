@@ -31,6 +31,8 @@ namespace Macaw.Umbraco.Foundation.Core.Models
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             var ret = base.TryGetMember(binder, out result);
+			//if result is JArray?
+
             return ret;
         }
 

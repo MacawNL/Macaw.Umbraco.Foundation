@@ -7,33 +7,24 @@ using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
 using Umbraco.Core.Models;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Core.Services;
 using Umbraco.Web;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 {
-    public class ContentPicker : BaseConverter, IPropertyEditorValueConverter
+    public class ContentPicker : BaseConverter
     {
-		public ContentPicker()
-			: base()
-		{ 
-		}
-
-        public ContentPicker(ISiteRepository rep)
-			: base(rep)
+		public override bool IsConverter(PublishedPropertyType propertyType)
 		{
+			return Constants.PropertyEditors.ContentPickerAlias.Equals(propertyType.PropertyEditorAlias);
 		}
 
-        public override bool IsConverterFor(Guid propertyEditorId, string docTypeAlias, string propertyTypeAlias)
-        {
-            return Guid.Parse("158aa029-24ed-4948-939e-c3da209e5fba").Equals(propertyEditorId);
-        }
-
-        public override Attempt<object> ConvertPropertyValue(object value)
-        {
-			var content = Repository.FindById(int.Parse(value.ToString()));
-            return new Attempt<object>(true, content);
-        }
+		public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+		{
+			var content = Repository.FindById(Convert.ToInt32(source));
+			return content;
+		}
     }
 }

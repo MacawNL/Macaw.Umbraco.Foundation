@@ -8,8 +8,9 @@ Foundation library used at Macaw Netherlands. Some features are:
 - Frontend developers friendly dynamic models for Templates and Macro  
 - Basic converters 
 - Testable controllers 
+- Several Html helpers like ToJson and NoHtmlString...
 
-Currently build on top of Umbraco 6.1.6.
+Currently build on top of Umbraco 7.0.1
 
 ##Installation
 Just reference the Macaw.Umbraco.Foundation dll in your Umbraco project or copy the library in the bin folder of your website.  

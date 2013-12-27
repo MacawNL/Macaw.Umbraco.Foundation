@@ -14,5 +14,7 @@ namespace Macaw.Umbraco.Foundation.Core
 		/// </summary>
 		/// <returns></returns>
 		bool IsNull();
+
+		//todo: HasValue() ??
 	}
 }

@@ -13,13 +13,11 @@ using Umbraco.Web;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 {
-	[Obsolete("http://issues.umbraco.org/issue/U4-2828")]
-    public abstract class BaseConverter : IPropertyEditorValueConverter
+	public abstract class BaseConverter : PropertyValueConverterBase
     {
 		protected ISiteRepository Repository;
 		protected UmbracoHelper Helper;
 
-		[Obsolete("use di")]
 		public BaseConverter() 
         {
 			var Context = UmbracoContext.Current;
@@ -38,11 +36,7 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 
         protected void Initialize(ISiteRepository rep)
         {
-            Repository = rep;
+			Repository = rep;
         }
-
-		public abstract bool IsConverterFor(Guid propertyEditorId, string docTypeAlias, string propertyTypeAlias);
-
-		public abstract Attempt<object> ConvertPropertyValue(object value);
-    }
+	}
 }

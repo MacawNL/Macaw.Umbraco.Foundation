@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Web;
 using Umbraco.Core;
 using Umbraco.Core.Dynamics;
+using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
 using Umbraco.Web;
 
@@ -13,32 +14,23 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 {
     public class MacroContainer : BaseConverter
     {
-		public MacroContainer()
-			: base() { }
+		public override bool IsConverter(PublishedPropertyType propertyType)
+		{
+			return Constants.PropertyEditors.MacroContainerAlias.Equals(propertyType.PropertyEditorAlias);
+		}
 
-		private string _propertyAlias;
-
-        public override bool IsConverterFor(Guid propertyEditorId, string docTypeAlias, string propertyTypeAlias)
-        {
-			var ret = Guid.Parse("474fcff8-9d2d-11de-abc6-ad7a56d89593").Equals(propertyEditorId);
-			if(ret)
+		public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+		{
+			string content = source.ToString();
+			if (!string.IsNullOrWhiteSpace(content) &&  UmbracoContext.Current != null && UmbracoContext.Current.PageId.HasValue)
 			{
-				_propertyAlias = propertyTypeAlias;
+				//todo: seems like we using legacy code here..
+				return new System.Web.HtmlString(umbraco.library.RenderMacroContent(content, UmbracoContext.Current.PageId.Value));
 			}
-
-			return ret;
-        }
-
-        public override Attempt<object> ConvertPropertyValue(object value)
-        {
-            if (UmbracoContext.Current != null && UmbracoContext.Current.PageId.HasValue)
-            {
-				return new Attempt<object>(true, Helper.Field(Repository.FindById(UmbracoContext.Current.PageId.Value), _propertyAlias));
-            }
-            else
-            {
-				return new Attempt<object>(true, new DynamicNull());
-            }
-        }
+			else
+			{
+				return DynamicNull.Null;
+			}
+		}
     }
 }

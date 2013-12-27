@@ -23,7 +23,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
         public static MvcHtmlString ToJson(this HtmlHelper html, IPublishedContent content, string[] properties = null, bool includeHiddenItems = true)
         {
             var ret = string.Empty;
-            if (content.IsVisible() == includeHiddenItems)
+			if ((bool)content.GetProperty(Constants.Conventions.Content.NaviHide).Value != includeHiddenItems)
             {
                 ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(content, properties));
             }
@@ -35,7 +35,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
         {
             string ret = "undefined";
             if(!includeHiddenItems) //not using IsVisible() here because it's not easy to mock for testing...
-                ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(collection.Where(p => !Convert.ToBoolean(int.Parse(p.GetProperty(Constants.Conventions.Content.NaviHide).Value.ToString()))) , properties));
+				ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(collection.Where(p => (bool)p.GetProperty(Constants.Conventions.Content.NaviHide).Value), properties));
             else
                 ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(collection, properties));
 
@@ -83,13 +83,13 @@ namespace Macaw.Umbraco.Foundation.Mvc
 
             if (aliases != null)
             {
-                foreach (var prop in content.Properties.Where(p => aliases.Contains(p.Alias)))
-                    expando.Add(prop.Alias, prop.Value);
+                foreach (var prop in content.Properties.Where(p => aliases.Contains(p.PropertyTypeAlias)))
+					expando.Add(prop.PropertyTypeAlias, prop.Value);
             }
             else
             {
                 foreach (var prop in content.Properties)
-                    expando.Add(prop.Alias, prop.Value);
+					expando.Add(prop.PropertyTypeAlias, prop.Value);
             }
 
             return expando as ExpandoObject;

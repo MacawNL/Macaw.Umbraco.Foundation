@@ -18,12 +18,13 @@ namespace Website.Test
 	/// </summary>
 	public class Arrange
 	{
-        public static Mock<IPublishedContentProperty> Property(string alias, object value)
+        public static Mock<IPublishedProperty> Property(string alias, object value)
         {
-            var mockedProp = new Moq.Mock<IPublishedContentProperty>(MockBehavior.Strict);
-            mockedProp.SetupGet(m => m.Alias).Returns(alias);
+			var mockedProp = new Moq.Mock<IPublishedProperty>(MockBehavior.Strict);
+            mockedProp.SetupGet(m => m.PropertyTypeAlias).Returns(alias);
             mockedProp.SetupGet(m => m.Value).Returns(value);
-            mockedProp.SetupGet(m => m.Version).Returns(Guid.NewGuid());
+			//mockedProp.SetupGet(m => m.DataValue).Returns(value);
+            mockedProp.SetupGet(m => m.HasValue).Returns(true);
 
             return mockedProp;
         }
@@ -46,11 +47,11 @@ namespace Website.Test
 			mockedItem.SetupGet(m => m.Children).Returns(children);
 
             //define properties
-            var props = new List<IPublishedContentProperty>() 
+            var props = new List<IPublishedProperty>() 
                 {
                     Property("title", name).Object,
                     Property("mainBody", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida vehicula eleifend. Aenean dapibus ligula nisl, eget faucibus ligula vehicula non. Nullam pellentesque rhoncus rhoncus. Donec at ipsum mi. Phasellus eget augue eu lectus placerat lacinia. Sed justo libero, facilisis vitae lectus ut, venenatis interdum dui. In at tincidunt arcu, sit amet egestas elit. Vestibulum ac scelerisque augue. Aenean ut sagittis lacus, in aliquam nisi. Etiam ac massa nec purus malesuada sodales et sed neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae").Object,
-                    Property(Umbraco.Core.Constants.Conventions.Content.NaviHide, umbracoNaviHide ? "1" : "0").Object
+                    Property(Umbraco.Core.Constants.Conventions.Content.NaviHide, umbracoNaviHide).Object
                 };
 
                 //set properties in property collection
@@ -59,7 +60,10 @@ namespace Website.Test
                 //mock GetProperty function aswell
             foreach (var prop in props)
             {
-                mockedItem.Setup(m => m.GetProperty(prop.Alias))
+				mockedItem.Setup(m => m.GetProperty(prop.PropertyTypeAlias))
+					.Returns(prop);
+
+                mockedItem.Setup(m => m.GetProperty(prop.PropertyTypeAlias, It.IsAny<bool>()))
                     .Returns(prop);
             }
 
