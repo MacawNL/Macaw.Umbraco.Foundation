@@ -8,6 +8,7 @@ Foundation library used at Macaw Netherlands. Some features are:
 - Frontend developers friendly dynamic models for Templates and Macro  
 - Basic converters 
 - Testable controllers 
+- Several Html helpers like ToJson, NoHtmlString etc..
 
 Currently build on top of Umbraco 6.1.6.
 
