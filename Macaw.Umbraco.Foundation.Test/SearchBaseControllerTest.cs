@@ -65,7 +65,7 @@ namespace Website.Test
         {
 			//1. Arrange
 			var mSite = new Mock<ISiteRepository>();
-			mSite.Setup(s => s.Find(It.IsAny<string>()))
+			mSite.Setup(s => s.Find(It.IsAny<string>())) //find returns a set of 5 dynamicmodels (mocked)
 				.Returns(Arrange.BasicPages(mSite.Object).Take(5)); //mocked object
 
 			var mController = new Mock<SearchBaseController>(mSite.Object) { CallBase = true }; //abstract class callBase

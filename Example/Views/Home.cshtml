@@ -1,10 +1,18 @@
-﻿@{
+﻿@using Macaw.Umbraco.Foundation.Mvc
+@{
 	Layout = "~/Views/Shared/_layout.cshtml";
 }
 
 @section Main
 {
 	<header>
+        <script>
+            
+            var i = @Html.ToJson(Model as IPublishedContent, new[] { "titel" });
+            var c = @Html.ToJson(Model.Children as IEnumerable<IPublishedContent>, new[] { "titel" }, false);
+            window.alert(i.titel);
+            
+        </script>
         Rotatie snelheids: @Model.CarrouselContainer.Rotatiesnelheid<br />
 		<ul>
 		@foreach(var item in Model.CarrouselContainer.Children)

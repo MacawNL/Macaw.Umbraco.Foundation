@@ -18,22 +18,50 @@ namespace Website.Test
 	/// </summary>
 	public class Arrange
 	{
+        public static Mock<IPublishedContentProperty> Property(string alias, object value)
+        {
+            var mockedProp = new Moq.Mock<IPublishedContentProperty>(MockBehavior.Strict);
+            mockedProp.SetupGet(m => m.Alias).Returns(alias);
+            mockedProp.SetupGet(m => m.Value).Returns(value);
+            mockedProp.SetupGet(m => m.Version).Returns(Guid.NewGuid());
+
+            return mockedProp;
+        }
+
 		public static Mock<IPublishedContent> Content()
 		{
 			return Content("Lorem ipsum dolor");
 		}
 
-		public static Mock<IPublishedContent> Content(string name)
+        public static Mock<IPublishedContent> Content(string name, bool umbracoNaviHide = false)
 		{
-			return Content(name, new List<IPublishedContent>());
+			return Content(name, new List<IPublishedContent>(), umbracoNaviHide);
 		}
 
-		public static Mock<IPublishedContent> Content(string name, IEnumerable<IPublishedContent> children)
+        public static Mock<IPublishedContent> Content(string name, IEnumerable<IPublishedContent> children, bool umbracoNaviHide = false)
 		{
 			var mockedItem = new Moq.Mock<IPublishedContent>();
 			mockedItem.SetupGet(m => m.Id).Returns(1);
 			mockedItem.SetupGet(m => m.Name).Returns(name);
 			mockedItem.SetupGet(m => m.Children).Returns(children);
+
+            //define properties
+            var props = new List<IPublishedContentProperty>() 
+                {
+                    Property("title", name).Object,
+                    Property("mainBody", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida vehicula eleifend. Aenean dapibus ligula nisl, eget faucibus ligula vehicula non. Nullam pellentesque rhoncus rhoncus. Donec at ipsum mi. Phasellus eget augue eu lectus placerat lacinia. Sed justo libero, facilisis vitae lectus ut, venenatis interdum dui. In at tincidunt arcu, sit amet egestas elit. Vestibulum ac scelerisque augue. Aenean ut sagittis lacus, in aliquam nisi. Etiam ac massa nec purus malesuada sodales et sed neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae").Object,
+                    Property(Umbraco.Core.Constants.Conventions.Content.NaviHide, umbracoNaviHide ? "1" : "0").Object
+                };
+
+                //set properties in property collection
+            mockedItem.SetupGet(m => m.Properties).Returns(props);
+
+                //mock GetProperty function aswell
+            foreach (var prop in props)
+            {
+                mockedItem.Setup(m => m.GetProperty(prop.Alias))
+                    .Returns(prop);
+            }
 
 			return mockedItem;
 		}

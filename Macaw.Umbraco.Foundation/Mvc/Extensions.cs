@@ -1,14 +1,46 @@
 ﻿using System;
+using System.Collections;
 using System.Collections.Generic;
+using System.Dynamic;
 using System.Linq;
+using System.Linq.Expressions;
 using System.Text.RegularExpressions;
 using System.Web;
 using System.Web.Mvc;
+using Umbraco.Core.Models;
+using Umbraco.Core;
 
 namespace Macaw.Umbraco.Foundation.Mvc
 {
 	public static class Extensions
 	{
+        public static MvcHtmlString ToJson(this HtmlHelper html, object obj)
+        {
+            var ret = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+            return MvcHtmlString.Create(ret);
+        }
+
+        public static MvcHtmlString ToJson(this HtmlHelper html, IPublishedContent content, string[] properties = null, bool includeHiddenItems = true)
+        {
+            var ret = string.Empty;
+            if (content.IsVisible() == includeHiddenItems)
+            {
+                ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(content, properties));
+            }
+
+            return MvcHtmlString.Create(ret);
+        }
+
+        public static MvcHtmlString ToJson(this HtmlHelper html, IEnumerable<IPublishedContent> collection, string[] properties = null, bool includeHiddenItems = true)
+        {
+            string ret = "undefined";
+            if(!includeHiddenItems) //not using IsVisible() here because it's not easy to mock for testing...
+                ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(collection.Where(p => !Convert.ToBoolean(int.Parse(p.GetProperty(Constants.Conventions.Content.NaviHide).Value.ToString()))) , properties));
+            else
+                ret = Newtonsoft.Json.JsonConvert.SerializeObject(ExtensionHelpers.ToDynamic(collection, properties));
+
+            return MvcHtmlString.Create(ret);
+        }
 
 		public static string NoHtmlString(this HtmlHelper helper, object value, int maxChars)
 		{
@@ -42,4 +74,32 @@ namespace Macaw.Umbraco.Foundation.Mvc
 				return string.Empty;
 		}
 	}
+
+    internal class ExtensionHelpers
+    {
+        internal static dynamic ToDynamic(IPublishedContent content, string[] aliases)
+        {
+            IDictionary<string, object> expando = new ExpandoObject();
+
+            if (aliases != null)
+            {
+                foreach (var prop in content.Properties.Where(p => aliases.Contains(p.Alias)))
+                    expando.Add(prop.Alias, prop.Value);
+            }
+            else
+            {
+                foreach (var prop in content.Properties)
+                    expando.Add(prop.Alias, prop.Value);
+            }
+
+            return expando as ExpandoObject;
+        }
+
+        internal static IEnumerable<dynamic> ToDynamic(IEnumerable<IPublishedContent> collection, string[] aliases)
+        {
+            foreach (var item in collection)
+                yield return ToDynamic(item, aliases);
+        }
+    }
+
 }
