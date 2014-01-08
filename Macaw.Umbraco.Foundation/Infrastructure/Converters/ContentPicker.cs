@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core;
+using Umbraco.Core.Dynamics;
 using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
 using Umbraco.Core.PropertyEditors;
@@ -23,8 +24,15 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 
 		public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
 		{
-			var content = Repository.FindById(Convert.ToInt32(source));
-			return content;
+			if (source != null && !source.ToString().IsNullOrWhiteSpace())
+			{
+				var content = Repository.FindById(Convert.ToInt32(source));
+
+				if(content != null)
+					return content;
+			}
+			
+			return DynamicNull.Null;
 		}
     }
 }

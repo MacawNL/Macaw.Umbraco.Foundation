@@ -11,6 +11,9 @@ using Umbraco.Core.Dynamics;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
+	/// <summary>
+	/// Null media item, returns default image for the url.
+	/// </summary>
 	public class DynamicNullMedia : DynamicObject, INullModel, IEnumerable, IHtmlString
 	{
 		//Same usage as UmbracoCore DynamicNull
@@ -23,26 +26,25 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			_dynamicNull = dn;
 		}
 
-		public string Url
+		public virtual string Url
 		{
 			get
 			{
-				var ret = WebConfigurationManager.AppSettings["Macaw.Umbraco.Foundation.EmptyImageUrl"];
-				return ret == null ? string.Empty : ret;
+				return Settings.EmptyImageUrl;
 			}
 		}
 
-		public bool IsNull()
+		public virtual bool IsNull()
 		{
 			return true;
 		}
 
-		public IEnumerator GetEnumerator()
+		public virtual IEnumerator GetEnumerator()
 		{
 			return _dynamicNull.GetEnumerator();
 		}
 
-		public string ToHtmlString()
+		public virtual string ToHtmlString()
 		{
 			return _dynamicNull.ToHtmlString();
 		}

@@ -41,11 +41,14 @@ namespace Macaw.Umbraco.Foundation.Controllers
 
 			resultModel.PagedResults = () =>
 			{
-				return model.Content.Children
+				return resultModel.Container //or model.Content.Children which is the same in this case.
 					.Skip(s * (p - 1))
 					.Take(s)
 					.Select(n => new DynamicModel(n, Repository));
 			};
+
+			resultModel.CurrentPage = p;
+			resultModel.PageSize = s;
 
 			return View(resultModel);
 		}

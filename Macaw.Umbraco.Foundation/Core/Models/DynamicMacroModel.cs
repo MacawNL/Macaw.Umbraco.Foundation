@@ -39,6 +39,9 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 						result = property.Value;
 						break;
 				}
+
+				if (result == null) //convert null to dynamicnull
+					result = DynamicNull.Null;
 			}
 			else
 				result = DynamicNull.Null;
@@ -46,7 +49,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
             return true;
         }
 
-		public bool IsNull()
+		public virtual bool IsNull()
 		{
 			return false;
 		}

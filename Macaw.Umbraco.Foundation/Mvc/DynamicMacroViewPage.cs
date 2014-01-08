@@ -20,15 +20,21 @@ namespace Macaw.Umbraco.Foundation.Mvc
             
         }
 
+		private dynamic _currentPage;
 		public new dynamic CurrentPage
 		{
 			get
 			{
-				var repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
-				return new DynamicModel((base.CurrentPage as IPublishedContent), repo);
+				if (_currentPage == null)
+				{
+					_currentPage = (base.CurrentPage as IPublishedContent).As<DynamicModel>();
+				}
+
+				return _currentPage;
 			}
 		}
 
+		private dynamic _macro;
 		/// <summary>
 		/// Access to all Macro parameters by using this dynamic property.
 		/// Returns a "DynamicMacroModel"
@@ -37,8 +43,13 @@ namespace Macaw.Umbraco.Foundation.Mvc
         {
             get
             {
-				var repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
-				return repo.FindMacroById(Model.MacroId, Model.MacroParameters);
+				if (_macro == null)
+				{
+					var repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
+					_macro = repo.FindMacroById(Model.MacroId, Model.MacroParameters);
+				}
+
+				return _macro;
             }
         }
 

@@ -1,6 +1,6 @@
 ﻿@inherits Macaw.Umbraco.Foundation.Mvc.DynamicMacroViewPage
 
- <aside>
+
 	@foreach(var child in Macro.Container.Children)
 	{
 		<section>
@@ -10,4 +10,3 @@
 			<button onclick="window.location = '@child.Url'; return true;" style="width: 100%">Lees meer, deze tekst moet uit de dictionary komen...</button>
 		</section>
 	}
-</aside>

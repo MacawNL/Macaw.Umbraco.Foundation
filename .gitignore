@@ -5,6 +5,7 @@ _nuget/
 [Ee]xample/[Aa]pp_[Dd]ata/packages
 [Ee]xample/[Aa]pp_[Dd]ata/preview
 [Ee]xample/[Aa]pp_[Dd]ata/TEMP
+[Ee]xample/[Aa]pp_[Dd]ata/Macaw.Umbraco.Foundation.DiskCache
 [Uu]mbraco.config
 [Aa]ccess.config
 [Ee]xample/[Ii]nstall

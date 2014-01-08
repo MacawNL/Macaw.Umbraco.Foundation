@@ -68,6 +68,9 @@
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\xmlrpcnet.2.5.0\lib\net20\CookComputing.XmlRpcV2.dll</HintPath>
     </Reference>
+    <Reference Include="DevTrends.MvcDonutCaching">
+      <HintPath>..\packages\MvcDonutCaching.1.2.3\lib\net40\DevTrends.MvcDonutCaching.dll</HintPath>
+    </Reference>
     <Reference Include="Examine, Version=0.1.52.2941, Culture=neutral, processorArchitecture=MSIL">
       <SpecificVersion>False</SpecificVersion>
       <HintPath>..\packages\UmbracoCms.Core.7.0.1\lib\Examine.dll</HintPath>
@@ -251,19 +254,23 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Caching\DebugOutputCacheProvider.cs" />
+    <Compile Include="Caching\DiskOutputCacheItem.cs" />
+    <Compile Include="Caching\DiskOutputCacheProvider.cs" />
     <Compile Include="Controllers\ContainerBaseController.cs" />
     <Compile Include="Controllers\SearchBaseController.cs" />
     <Compile Include="Core\INullModel.cs" />
     <Compile Include="Core\IPager.cs" />
     <Compile Include="Core\ISiteRepository.cs" />
-    <Compile Include="Core\IUrlModel.cs" />
     <Compile Include="Core\Models\DynamicCollectionModel.cs" />
     <Compile Include="Core\Models\DynamicMacroModel.cs" />
+    <Compile Include="Core\Models\DynamicMediaModel.cs" />
     <Compile Include="Core\Models\DynamicModel.cs" />
     <Compile Include="Core\Models\DynamicNullMedia.cs" />
     <Compile Include="Core\Models\DynamicSearchModel.cs" />
     <Compile Include="Core\Models\DynamicSearchResultItem.cs" />
     <Compile Include="Core\ServiceLocator.cs" />
+    <Compile Include="Core\Settings.cs" />
     <Compile Include="Infrastructure\Converters\BaseConverter.cs" />
     <Compile Include="Infrastructure\Converters\ContentPicker.cs" />
     <Compile Include="Infrastructure\Converters\MacroContainer.cs" />
@@ -281,6 +288,9 @@
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>
+  </ItemGroup>
+  <ItemGroup>
+    <Content Include="DevTrends.MvcDonutCaching.README.txt" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>

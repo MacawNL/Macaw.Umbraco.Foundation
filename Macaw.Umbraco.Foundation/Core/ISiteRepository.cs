@@ -18,7 +18,7 @@ namespace Macaw.Umbraco.Foundation.Core
 		/// <param name="values">published values of the macro..</param>
 		/// <returns></returns>
 		DynamicMacroModel FindMacroById(int id, IDictionary<string, object> values);
-		DynamicModel FindMediaById(int id);
+		DynamicMediaModel FindMediaById(int id);
         DynamicModel FindById(int id);
 		IContent FindContentById(int id);
 
@@ -30,7 +30,7 @@ namespace Macaw.Umbraco.Foundation.Core
 		/// </summary>
 		/// <param name="id">Content / Node Id</param>
 		/// <returns></returns>
-		string NiceUrl(int id);
-		string NiceUrl(IPublishedContent content);
+		string FriendlyUrl(int id);
+		string FriendlyUrl(IPublishedContent content);
     }
 }

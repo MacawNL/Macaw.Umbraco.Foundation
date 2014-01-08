@@ -14,6 +14,7 @@ using System.Globalization;
 using Macaw.Umbraco.Foundation.Mvc;
 using Macaw.Umbraco.Foundation.Core;
 using Macaw.Umbraco.Foundation.Core.Models;
+using DevTrends.MvcDonutCaching;
 
 namespace Macaw.Umbraco.Foundation.Controllers
 {
@@ -23,19 +24,15 @@ namespace Macaw.Umbraco.Foundation.Controllers
 	/// </summary>
 	public class DynamicBaseController : Controller, IRenderMvcController // more info: http://our.umbraco.org/documentation/Reference/Mvc/custom-controllers
 	{
-		protected ISiteRepository Repository; 
+		protected ISiteRepository Repository;
 
 		public DynamicBaseController(ISiteRepository rep)
 			: base()
         {
-            Initialize(rep);
-        }
-
-        protected void Initialize(ISiteRepository rep)
-        {
             Repository = rep;
         }
 
+		[DonutOutputCache(Duration = 86400, VaryByParam="*")]
 		public virtual ActionResult Index(RenderModel model) //Template name, default is Index
 		{
 			var ret =  new DynamicModel(model.Content, Repository);

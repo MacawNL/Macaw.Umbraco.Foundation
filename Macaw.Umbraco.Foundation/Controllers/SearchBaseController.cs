@@ -43,7 +43,10 @@ namespace Macaw.Umbraco.Foundation.Controllers
                 q);//this.Request.QueryString["q"]);
 
             //late binding for pagedresults
-            resultModel.PagedResults = () => { return Repository.Find(resultModel.Query).Skip(s * (p - 1)).Take(s); };
+            resultModel.PagedResults = () => { return resultModel.Container.Skip(s * (p - 1)).Take(s); };
+
+			resultModel.CurrentPage = p;
+			resultModel.PageSize = s;
 
             return View(resultModel);
         }

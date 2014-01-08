@@ -35,7 +35,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
 					foreach (var page in Pages)
 					{
 						writer.WriteStartElement("url");
-						writer.WriteElementString("loc", Repository.NiceUrl(page.Id));
+						writer.WriteElementString("loc", page.Url);
 
 						writer.WriteElementString("lastmod", page.UpdateDate.ToString("yyyy-MM-dd"));
 

@@ -24,7 +24,20 @@ namespace Macaw.Umbraco.Foundation.Core
 
 		/// <summary>
 		/// Total count of all results.
+		/// Not the same as Results.Count, because Results contains the paged results.
 		/// </summary>
 		int TotalResults { get; }
+
+		/// <summary>
+		/// Set by the controller
+		/// </summary>
+		int CurrentPage { get; set; }
+
+		/// <summary>
+		/// Set by the controller
+		/// </summary>
+		int PageSize { get; set; }
+
+		int TotalPages { get; }
 	}
 }

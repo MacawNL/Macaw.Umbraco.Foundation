@@ -7,7 +7,10 @@ using Umbraco.Core.Models;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
-    public class DynamicSearchResultItem : DynamicModel
+	/// <summary>
+	/// Result item contains highlightext
+	/// </summary>
+    public class DynamicSearchResultItem : DynamicModel //todo: find another way to accomplish this..
     {
 
         public DynamicSearchResultItem(IPublishedContent source, ISiteRepository repository)
