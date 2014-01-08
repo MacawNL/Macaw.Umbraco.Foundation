@@ -10,7 +10,7 @@
             
             var i = @Html.ToJson(Model as IPublishedContent, new[] { "titel" });
             var c = @Html.ToJson(Model.Children as IEnumerable<IPublishedContent>, new[] { "titel" }, false);
-            window.alert(i.titel);
+        	window.status = i.titel;
             
         </script>
         Rotatie snelheids: @Model.CarrouselContainer.Rotatiesnelheid<br />
