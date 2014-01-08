@@ -11,7 +11,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 {
 	public class DynamicCollectionModel : DynamicModel, IPager, IEnumerable<DynamicModel>
 	{
-		private IEnumerable<DynamicModel> Container { get; set; }
+		public IEnumerable<DynamicModel> Container { get; private set; }
 
 		public DynamicCollectionModel(IPublishedContent source, ISiteRepository repository, IPublishedContent containerParent)
 			: base(source, repository)
@@ -43,9 +43,17 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			}
 		}
 
+		public int? _totalResults;
+
 		public int TotalResults
 		{
-			get { return Container.Count(); }
+			get 
+			{
+				if (!_totalResults.HasValue)
+					_totalResults = Container.Count();
+
+				return _totalResults.Value;
+			}
 		}
 
 		public IEnumerator<DynamicModel> GetEnumerator()
@@ -56,6 +64,20 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
 			return this.GetEnumerator();
+		}
+
+
+		public int CurrentPage { get; set; }
+
+		public int PageSize { get; set; }
+
+		public int TotalPages
+		{
+			get
+			{
+				var ret = (int)Math.Ceiling((double)TotalResults / PageSize);
+				return ret < 1 ? 1 : ret;
+			}
 		}
 	}
 }

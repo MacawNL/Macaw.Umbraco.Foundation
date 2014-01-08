@@ -6,6 +6,7 @@ using System.Text;
 using System.Threading.Tasks;
 using umbraco.cms.businesslogic.macro;
 using Umbraco.Core.Dynamics;
+using Umbraco.Core;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
@@ -28,24 +29,27 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			{
 				switch (property.Type)
 				{
-					case "contentPicker":
+					case Constants.PropertyEditors.ContentPickerAlias:
 						result = Repository.FindById(int.Parse(property.Value));
 						break;
-					case "mediaCurrent":
+					case Constants.PropertyEditors.MediaPickerAlias:
 						result = Repository.FindMediaById(int.Parse(property.Value));
 						break;
 					default:
 						result = property.Value;
 						break;
 				}
+
+				if (result == null) //convert null to dynamicnull
+					result = DynamicNull.Null;
 			}
 			else
-				result = new DynamicNull();
+				result = DynamicNull.Null;
 
             return true;
         }
 
-		public bool IsNull()
+		public virtual bool IsNull()
 		{
 			return false;
 		}

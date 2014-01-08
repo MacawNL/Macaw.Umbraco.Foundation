@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Web.Mvc;
 
-namespace Example.DependencyResolution
+namespace Example.Implementation.DependencyResolution
 {
 	public class AutofacServiceLocator : IServiceLocator
 	{

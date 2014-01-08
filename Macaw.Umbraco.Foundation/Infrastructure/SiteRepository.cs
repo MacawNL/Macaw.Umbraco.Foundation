@@ -10,6 +10,7 @@ using Umbraco.Web;
 using Umbraco.Web.Models;
 using Macaw.Umbraco.Foundation.Core.Models;
 using Macaw.Umbraco.Foundation.Core;
+using Umbraco.Core.Dynamics;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure
 {
@@ -39,6 +40,7 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
         /// <returns></returns>
         public IEnumerable<DynamicModel> Find(string query)
         {
+			//todo: check for PublishedContentExtensions Search and SearchChildren extensions..
             var searcher = ExamineManager.Instance.SearchProviderCollection[SearchProvidername];
             var criteria = searcher.CreateSearchCriteria(Examine.SearchCriteria.BooleanOperation.Or);
             var searchCriteria = criteria.RawQuery(query);
@@ -59,10 +61,15 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
                 string searchHiglight = !String.IsNullOrEmpty(field.Key) ?
                     LuceneHighlightHelper.Instance.GetHighlight(field.Value, field.Key, ((LuceneSearcher)searcher).GetSearcher(), query) : String.Empty;
 
-                var ret = new DynamicSearchResultItem(Helper.TypedContent(item.Id).AsDynamic(), this);
-                ret.HighlightText = searchHiglight;
+				var content = FindById(item.Id); //returns dynamic null if this is not a content item (for example when this is a media item.
 
-                yield return ret;
+				if (content != null)
+				{
+					var ret = new DynamicSearchResultItem(content, this);
+					ret.HighlightText = searchHiglight;
+
+					yield return ret;
+				}
             }
         }
 
@@ -88,7 +95,11 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 
 		public DynamicModel FindById(int id)
 		{
-			return new DynamicModel(Helper.TypedContent(id), this);
+			var content = Helper.TypedContent(id);
+			if (content != null)
+				return new DynamicModel(Helper.TypedContent(id), this);
+			else
+				return null;
 		}
 
 		public IContent FindContentById(int id)
@@ -96,9 +107,13 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 			return Service.GetById(id);
 		}
 
-        public DynamicModel FindMediaById(int id)
+        public DynamicMediaModel FindMediaById(int id)
         {
-			return new DynamicModel(Helper.TypedMedia(id), this);
+			var media = Helper.TypedMedia(id);
+			if(media != null)
+				return new DynamicMediaModel(media, this); //todo: dynamicmediamodel
+			else
+				return null;
         }
 
 		public string Translate(string key)
@@ -119,12 +134,12 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 			return new DynamicMacroModel(source, this);
 		}
 
-		public string NiceUrl(IPublishedContent content)
+		public string FriendlyUrl(IPublishedContent content)
 		{
-			return NiceUrl(content.Id);
+			return FriendlyUrl(content.Id);
 		}
 
-		public string NiceUrl(int id)
+		public string FriendlyUrl(int id)
 		{
 			return Helper.NiceUrlWithDomain(id);
 		}

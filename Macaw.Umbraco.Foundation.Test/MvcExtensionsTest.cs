@@ -11,8 +11,42 @@ namespace Macaw.Umbraco.Foundation.Test
     [TestClass]
     public class MvcExtensionsTest // Naming convention: Method_to_test__State_under_test__Expected_behavior
     {
+		/// <summary>
+		/// Single item test
+		/// </summary>
+		[TestMethod]
+		public void ToJson__Include_hidden_items_set_to_false__Json_output_returns_nonhidden_item()
+		{
+			//1. Arrange
+			System.Web.Mvc.HtmlHelper helper = null;
+			var mContent = Arrange.Content("Consectetur hidden item", true);
+
+			//2. act
+			var output = helper.ToJson(mContent.Object, null, false);
+
+			//3. assert
+			Assert.IsTrue(output.ToString().Equals(string.Empty), "Ouput does contain hidden item");
+		}
+
+		/// <summary>
+		/// Single item test
+		/// </summary>
+		[TestMethod]
+		public void ToJson__Include_hidden_items_not_set__Json_output_returns_nonhidden_item()
+		{
+			//1. Arrange
+			System.Web.Mvc.HtmlHelper helper = null;
+			var mContent = Arrange.Content("Consectetur hidden item", true);
+
+			//2. act
+			var output = helper.ToJson(mContent.Object, null);
+
+			//3. assert
+			Assert.IsTrue(output.ToString().Contains("Consectetur hidden item"), "Ouput does not contains item");
+		}
+
         /// <summary>
-        /// When IncludeHiddenItems is set to false only non hidden items have to be rendered as json
+        /// IEnumerable testWhen IncludeHiddenItems is set to false only non hidden items have to be rendered as json
         /// </summary>
         [TestMethod]
         public void ToJson__Include_hidden_items_set_to_false__Json_output_returns_nonhidden_items()

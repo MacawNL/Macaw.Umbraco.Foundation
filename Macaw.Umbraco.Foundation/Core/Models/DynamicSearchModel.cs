@@ -7,13 +7,14 @@ using System.Linq;
 using System.Web;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
-using Umbraco.Web;
 using System.Dynamic;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
-
-    public class DynamicSearchModel : DynamicCollectionModel //DynamicModel, IPager
+	/// <summary>
+	/// Search model dynamiccollection based on the search query.
+	/// </summary>
+    public class DynamicSearchModel : DynamicCollectionModel 
     {
         public string Query { get; private set; }
 
@@ -21,10 +22,12 @@ namespace Macaw.Umbraco.Foundation.Core.Models
             IPublishedContent source,
             ISiteRepository repository,
             string query)
-			: base(source, repository, repository.Find(string.IsNullOrWhiteSpace(query) ? "<NOT>" : query))
+			: base(source, repository, 
+				repository.Find(string.IsNullOrWhiteSpace(query) ? "<NOT>" : query)
+				.Where(f => f.IsVisible())
+			)
 
         {
-            Repository = repository;
             Query = string.IsNullOrWhiteSpace(query) ? "<NOT>" : query;
         }
     }

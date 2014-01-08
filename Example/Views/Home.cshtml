@@ -32,5 +32,10 @@
 
 @section Side
 {
-	@Model.WidgetArea
+	@foreach(var widget in Model.WidgetArea)
+	{
+		<aside>
+			@widget
+		</aside> 
+	}
 }

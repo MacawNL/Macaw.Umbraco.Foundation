@@ -57,7 +57,7 @@
 				<ul>
 					@foreach(var url in Model.Homepage.SocialNetworks)
 					{
-						<li>@url</li>
+						<li><a href="@url.link">@url.title</a></li>
 					}
 				</ul>
             </footer>

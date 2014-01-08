@@ -27,7 +27,7 @@
 
     <!--[if lt IE 9]>
 		<link media="all" rel="stylesheet" href="../../umbraco_client/installer/css/lt7.css" />
-		<script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+		<script src="//html5shim.googlecode.com/svn/trunk/html5.js"></script>
 	<![endif]-->
 
     <!--[if lt IE 7]><script type="text/javascript" src="../../umbraco_client/installer/js/ie-png.js"></script><![endif]-->
@@ -85,7 +85,7 @@
                                     So get rid of this page by starting umbraco and publishing some content. You can do this by clicking the "set up your new website" button below.
                                 </p>
                                 <ul class="btn-web">
-                                    <li class="btn-set"><a href="<%= IOHelper.ResolveUrl(SystemDirectories.Umbraco) %>/umbraco.aspx"><span>Launch umbraco</span></a></li>
+                                    <li class="btn-set"><a href="<%= IOHelper.ResolveUrl(SystemDirectories.Umbraco) %>"><span>Launch umbraco</span></a></li>
                                 </ul>
                             </div>
                             <div class="threcol">
