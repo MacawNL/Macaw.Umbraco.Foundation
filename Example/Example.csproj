@@ -268,7 +268,6 @@
   <ItemGroup>
     <Compile Include="Implementation\Controllers\ListingController.cs" />
     <Compile Include="Implementation\Controllers\SearchController.cs" />
-    <Compile Include="Implementation\DependencyResolution\AutofacServiceLocator.cs" />
     <Compile Include="Implementation\Events\StartupHandler.cs" />
     <Compile Include="Implementation\Forms\Contact.cs" />
     <Compile Include="Implementation\SurfaceControllers\PersonSurfaceController.cs" />

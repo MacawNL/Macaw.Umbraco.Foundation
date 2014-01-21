@@ -254,6 +254,7 @@
     </Reference>
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="Application.cs" />
     <Compile Include="Caching\DebugOutputCacheProvider.cs" />
     <Compile Include="Caching\DiskOutputCacheItem.cs" />
     <Compile Include="Caching\DiskOutputCacheProvider.cs" />
@@ -269,7 +270,6 @@
     <Compile Include="Core\Models\DynamicNullMedia.cs" />
     <Compile Include="Core\Models\DynamicSearchModel.cs" />
     <Compile Include="Core\Models\DynamicSearchResultItem.cs" />
-    <Compile Include="Core\ServiceLocator.cs" />
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Infrastructure\Converters\BaseConverter.cs" />
     <Compile Include="Infrastructure\Converters\ContentPicker.cs" />
@@ -285,6 +285,7 @@
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>
+    <None Include="Macaw.Umbraco.Foundation.nuspec" />
     <None Include="packages.config">
       <SubType>Designer</SubType>
     </None>

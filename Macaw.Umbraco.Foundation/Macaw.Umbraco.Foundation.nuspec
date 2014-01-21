@@ -1,0 +1,27 @@
+<?xml version="1.0"?>
+<package >
+	<metadata>
+		<id>Macaw.Umbraco.Foundation</id>
+		<version>0.0.4-beta</version>
+		<title>Macaw Umbraco Foundation</title>
+		<authors>Macaw Employees</authors>
+		<owners>Chuhukon</owners>
+		<licenseUrl>http://github.com/MacawNL/Macaw.Umbraco.Foundation/blob/master/LICENSE</licenseUrl>
+		<projectUrl>http://github.com/MacawNL/Macaw.Umbraco.Foundation/</projectUrl>
+		<iconUrl>http://www.macaw.nl/favicon.ico</iconUrl>
+		<requireLicenseAcceptance>false</requireLicenseAcceptance>
+		<description> Umbraco Foundation library used at Macaw http://www.macaw.nl, see project url for more information about how to setup your project</description>
+		<releaseNotes>This is a beta release.</releaseNotes>
+		<copyright>Copyright 2014</copyright>
+		<tags>umbraco foundation mvc</tags>
+		<dependencies>
+			<dependency id="Autofac" version="3.2.0"/>
+			<dependency id="Autofac.Mvc4" version="3.1.0"  />
+			<dependency id="Autofac.WebApi" version="3.1.0"  />
+			<dependency id="UmbracoCms.Core" version="7.0.1"  />
+		</dependencies>
+	</metadata>
+	<files>
+		<file src="..\nuget\content\Implementation\**\*.*" target="content\Implementation" />
+	</files>
+</package>

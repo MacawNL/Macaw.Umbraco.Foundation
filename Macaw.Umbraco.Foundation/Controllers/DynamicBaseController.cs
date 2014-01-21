@@ -32,11 +32,10 @@ namespace Macaw.Umbraco.Foundation.Controllers
             Repository = rep;
         }
 
-		[DonutOutputCache(Duration = 86400, VaryByParam="*")]
+		[DonutOutputCache(Duration = 86400, VaryByCustom="url")]
 		public virtual ActionResult Index(RenderModel model) //Template name, default is Index
 		{
 			var ret =  new DynamicModel(model.Content, Repository);
-            //todo: multiple cultures?
             return View(ret);
 
 

@@ -5,6 +5,7 @@ using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Web.Mvc;
 using Umbraco.Core;
 using Umbraco.Core.Models;
 using Umbraco.Core.PropertyEditors;
@@ -20,13 +21,7 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 
 		public BaseConverter() 
         {
-			var Context = UmbracoContext.Current;
-			Helper = new UmbracoHelper(Context);
-
-            //todo: use dependency injection..
-			Initialize(new Macaw.Umbraco.Foundation.Infrastructure.SiteRepository(
-                ApplicationContext.Current.Services.ContentService,  
-                Helper));
+			Initialize(DependencyResolver.Current.GetService<ISiteRepository>());
         }
 
 		public BaseConverter(ISiteRepository rep)

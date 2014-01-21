@@ -1,9 +1,10 @@
-﻿@inherits Macaw.Umbraco.Foundation.Mvc.DynamicMacroViewPage
+﻿@using Macaw.Umbraco.Foundation.Mvc
+@inherits Macaw.Umbraco.Foundation.Mvc.DynamicMacroViewPage
 
 
 	<section>
 		<h4>@Macro.Content.Titel</h4>
 		<img src="@Macro.Content.Thumbnail.Url" width="100px" height="100px"/>
 		<p>@Macro.Content.Intro</p>
-		<button onclick="window.location = '@Macro.Content.Url'; return true;" style="width: 100%">Lees meer, deze tekst moet uit de dictionary komen...</button>
+		<button onclick="window.location = '@Macro.Content.Url'; return true;" style="width: 100%">@("Lees meer...".Translate("readmore"))</button>
 	</section>

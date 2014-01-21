@@ -1,3 +1,4 @@
+@using Macaw.Umbraco.Foundation.Mvc
 @{
 	Layout = "~/Views/Shared/_layout.cshtml";
 }
@@ -18,7 +19,7 @@
 		<section>
 			<h2>@child.Titel</h2>
 			<p>@child.Intro</p>
-			<button onclick="window.location = '@child.Url'; return true;" style="width: 100%">Lees meer, deze tekst moet uit de dictionary komen...</button>
+			<button onclick="window.location = '@child.Url'; return true;" style="width: 100%">@("Lees meer...".Translate("readmore"))</button>
 		</section>
 	}
 	<section>

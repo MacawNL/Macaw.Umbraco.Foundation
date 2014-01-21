@@ -34,7 +34,7 @@ namespace Macaw.Umbraco.Foundation.Caching
 			get
 			{
 				var folder = HostingEnvironment.ApplicationPhysicalPath + @"App_data\Macaw.Umbraco.Foundation.DiskCache\";
-				if(!Directory.Exists(folder))
+				if (!Directory.Exists(folder))
 					Directory.CreateDirectory(folder);
 
 				return folder;
@@ -43,13 +43,12 @@ namespace Macaw.Umbraco.Foundation.Caching
 
 		IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
 		{
-
-			return CacheItems.GetEnumerator();
+			return (new List<KeyValuePair<string, object>>(CacheItems)).GetEnumerator();
 		}
 
-		public IEnumerator GetEnumerator() 
+		public IEnumerator GetEnumerator()
 		{
-			return CacheItems.GetEnumerator();
+			return GetEnumerator();
 		}
 
 		public override object Add(string key, object entry, DateTime utcExpiry)

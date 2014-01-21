@@ -54,12 +54,10 @@ namespace Macaw.Umbraco.Foundation.Events
 			ContentService.Deleted += ContentDeleted;
 			MediaService.Saved += MediaSaved;
 
-			Func<IServiceLocator> locator;
 			IDependencyResolver resolver;
 			InitializeAtStartup(umbracoApplication, applicationContext,
-				out locator, out resolver);
+				out resolver);
 
-			ServiceLocator.SetServiceLocator(locator);
 			DependencyResolver.SetResolver(resolver);
 
 			RegisterBaseRoutes();
@@ -69,7 +67,7 @@ namespace Macaw.Umbraco.Foundation.Events
 		}
 
 		public abstract void InitializeAtStartup(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext,
-			out Func<IServiceLocator> locator, out IDependencyResolver resolver);
+			out IDependencyResolver resolver);
 
 		#region Cache management
 

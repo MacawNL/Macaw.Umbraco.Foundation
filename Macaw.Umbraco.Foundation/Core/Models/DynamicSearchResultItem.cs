@@ -8,9 +8,9 @@ using Umbraco.Core.Models;
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
 	/// <summary>
-	/// Result item contains highlightext
+	/// Result item contains highlightext, used by the repository
 	/// </summary>
-    public class DynamicSearchResultItem : DynamicModel //todo: find another way to accomplish this..
+    public class DynamicSearchResultItem : DynamicModel 
     {
 
         public DynamicSearchResultItem(IPublishedContent source, ISiteRepository repository)

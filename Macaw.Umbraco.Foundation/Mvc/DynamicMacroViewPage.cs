@@ -7,6 +7,7 @@ using Umbraco.Web.Macros;
 using Umbraco.Core.Models;
 using Macaw.Umbraco.Foundation.Core.Models;
 using Macaw.Umbraco.Foundation.Core;
+using System.Web.Mvc;
 
 namespace Macaw.Umbraco.Foundation.Mvc
 {
@@ -45,7 +46,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
             {
 				if (_macro == null)
 				{
-					var repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
+					var repo = DependencyResolver.Current.GetService<ISiteRepository>();
 					_macro = repo.FindMacroById(Model.MacroId, Model.MacroParameters);
 				}
 

@@ -1,5 +1,4 @@
 ﻿using System;
-using System.Collections;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.Linq;
@@ -11,7 +10,7 @@ using Umbraco.Core.Logging;
 namespace Macaw.Umbraco.Foundation.Caching
 {
 	/// <summary>
-	/// Is a dummy cache provider for debuging purpose
+	/// Is a dummy cache provider which for debuging distributed caching 
 	/// </summary>
 	public class DebugOutputCacheProvider : OutputCacheProvider, IEnumerable<KeyValuePair<string, object>>
 	{
@@ -48,16 +47,16 @@ namespace Macaw.Umbraco.Foundation.Caching
 			LogMessage(message);
 		}
 
-		IEnumerator IEnumerable.GetEnumerator()
+		public IEnumerator<KeyValuePair<string, object>> GetEnumerator()
 		{
-			string message = string.Format("GetEnumerator is called");
-			return null;
+			string message = string.Format("GetEnumerator from cache");
+			return (new Dictionary<string, object>()).GetEnumerator();
 		}
 
-		IEnumerator<KeyValuePair<string, object>> IEnumerable<KeyValuePair<string, object>>.GetEnumerator()
+		System.Collections.IEnumerator System.Collections.IEnumerable.GetEnumerator()
 		{
-			string message = string.Format("GetEnumerator is called");
-			return null;
+			string message = string.Format("GetEnumerator from cache");
+			return (new Dictionary<string, object>()).GetEnumerator();
 		}
 	}
 }

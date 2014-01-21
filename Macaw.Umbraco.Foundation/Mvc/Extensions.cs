@@ -42,7 +42,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
 				return string.Format("#{0}",key);
 			}
 
-			var repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
+			var repo = DependencyResolver.Current.GetService<ISiteRepository>();
 			var ret = repo.Translate(key);
 
 			if (ret.IsNullOrWhiteSpace())
@@ -64,10 +64,10 @@ namespace Macaw.Umbraco.Foundation.Mvc
 			ISiteRepository repo;
 
 			var dyn = content as DynamicModel;
-			if (content != null) //keep using already defined repository.
+			if (dyn != null) //keep using already defined repository.
 				repo = dyn.Repository;
 			else //get repository from service locator.
-				repo = ServiceLocator.Current.GetInstance<ISiteRepository>();
+				repo = DependencyResolver.Current.GetService<ISiteRepository>();
 				
 			return (T)Activator.CreateInstance(typeof(T), content, repo);
 		}
@@ -145,28 +145,33 @@ namespace Macaw.Umbraco.Foundation.Mvc
 
     internal class ExtensionHelpers
     {
-        internal static dynamic ToDynamic(IPublishedContent content, string[] aliases)
-        {
-            IDictionary<string, object> expando = new ExpandoObject();
+		internal static dynamic ToDynamic(IPublishedContent content, string[] aliases)
+		{
+			IDictionary<string, object> expando = new ExpandoObject();
 
-            if (aliases != null)
-            {
-                foreach (var prop in content.Properties.Where(p => aliases.Contains(p.PropertyTypeAlias)))
-					expando.Add(prop.PropertyTypeAlias, prop.Value);
-            }
-            else
-            {
-				foreach (var prop in content.Properties)
+			if (aliases != null)
+			{
+				foreach (var prop in content.Properties.Where(p => aliases.Contains(p.PropertyTypeAlias)))
 				{
-					if (prop.Value is HtmlString) //htmlstring can not be serialized with Newtonsoft json..
+					if (prop.Value is HtmlString || prop.Value is DynamicMediaModel) //htmlstring & DynamicMediaModel can not be serialized with Newtonsoft json..
 						expando.Add(prop.PropertyTypeAlias, prop.Value.ToString());
 					else
 						expando.Add(prop.PropertyTypeAlias, prop.Value);
 				}
-            }
+			}
+			else
+			{
+				foreach (var prop in content.Properties)
+				{
+					if (prop.Value is HtmlString || prop.Value is DynamicMediaModel) //htmlstring & DynamicMediaModel can not be serialized with Newtonsoft json..
+						expando.Add(prop.PropertyTypeAlias, prop.Value.ToString());
+					else
+						expando.Add(prop.PropertyTypeAlias, prop.Value);
+				}
+			}
 
-            return expando as ExpandoObject;
-        }
+			return expando as ExpandoObject;
+		}
 
         internal static IEnumerable<dynamic> ToDynamic(IEnumerable<IPublishedContent> collection, string[] aliases)
         {

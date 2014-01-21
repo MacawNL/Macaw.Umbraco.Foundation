@@ -24,5 +24,10 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 				return _url;
 			}
 		}
+
+		public override string ToString()
+		{
+			return this.Url;
+		}
 	}
 }

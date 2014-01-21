@@ -9,6 +9,9 @@ using Umbraco.Web.Models;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
+	/// <summary>
+	/// "View"model used by the container controller
+	/// </summary>
 	public class DynamicCollectionModel : DynamicModel, IPager, IEnumerable<DynamicModel>
 	{
 		public IEnumerable<DynamicModel> Container { get; private set; }

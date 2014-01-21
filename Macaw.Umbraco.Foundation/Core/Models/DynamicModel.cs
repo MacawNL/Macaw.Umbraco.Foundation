@@ -11,9 +11,10 @@ using Umbraco.Web.Models;
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
 	/// <summary>
-	/// Dynamic Model is a proxy for DynamicPublishedContent and can be used as a 
-	/// Hybrid model in your implementation so you can use all the advantages of a dynamic model but also use it as a typed model and
-	/// extended with some extra functionality..
+	/// DynamicModel is using Umbraco's standard DynamicPublishedContent
+	/// https://github.com/MacawNL/Macaw.Umbraco.Foundation/wiki/Core-Models
+	/// Cause we like to have some extra control over some properties we implement our own IPublishedContent as the base class
+	/// Instead of using DynamicPublishedContent directly.
 	/// </summary>
 	public class DynamicModel : DynamicObject, IPublishedContent, INullModel
 	{
@@ -57,6 +58,20 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 					return ret.Value;
 				}
 			}
+		}
+
+		/// <summary>
+		/// Convert this item to a custom type that inherits from dynamic model
+		/// The class must have a 2 parameter constructor.
+		/// </summary>
+		/// <typeparam name="T"></typeparam>
+		/// <returns></returns>
+		public T As<T>() where T : DynamicModel
+		{
+			if (this is T)
+				return this as T;
+			else
+				return (T)Activator.CreateInstance(typeof(T), this, Repository);
 		}
 
 		IPublishedContent IPublishedContent.Parent
@@ -162,15 +177,6 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 
 		#endregion
 
-		[Obsolete("use Url")]
-		public virtual string FriendlyUrl
-		{
-			get
-			{
-				return this.Url;
-			}
-		}
-
 		public virtual bool IsNull()
 		{
 			return false;
@@ -226,7 +232,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			return Source.GetProperty(alias);
 		}
 
-		public int Id
+		public virtual int Id
 		{
 			get { return Source.Id; }
 		}
@@ -241,17 +247,17 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			get { return Source.ItemType; }
 		}
 
-		public int Level
+		public virtual int Level
 		{
 			get { return Source.Level; }
 		}
 
-		public string Name
+		public virtual string Name
 		{
 			get { return Source.Name; }
 		}
 
-		public string Path
+		public virtual string Path
 		{
 			get { return Source.Path; }
 		}
@@ -261,17 +267,17 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			get { return ((IPublishedContent)Source).Properties; }
 		}
 
-		public int SortOrder
+		public virtual int SortOrder
 		{
 			get { return Source.SortOrder; }
 		}
 
-		public int TemplateId
+		public virtual int TemplateId
 		{
 			get { return Source.TemplateId; }
 		}
 
-		public DateTime UpdateDate
+		public virtual DateTime UpdateDate
 		{
 			get { return Source.UpdateDate; }
 		}
@@ -281,32 +287,32 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			get { return Repository.FriendlyUrl(Source); }
 		}
 
-		public string UrlName
+		public virtual string UrlName
 		{
 			get { return Source.UrlName; }
 		}
 
-		public Guid Version
+		public virtual Guid Version
 		{
 			get { return Source.Version; }
 		}
 
-		public int WriterId
+		public virtual int WriterId
 		{
 			get { return Source.WriterId; }
 		}
 
-		public string WriterName
+		public virtual string WriterName
 		{
 			get { return Source.WriterName; }
 		}
 
-		public object this[string alias]
+		public virtual object this[string alias]
 		{
 			get { return Source[alias]; }
 		}
 
-		public bool IsVisible()
+		public virtual bool IsVisible()
 		{
 			return Source.IsVisible();
 		}

@@ -12,7 +12,7 @@ using System.Dynamic;
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
 	/// <summary>
-	/// Search model dynamiccollection based on the search query.
+	/// Search "view" model used by the searchcontroller
 	/// </summary>
     public class DynamicSearchModel : DynamicCollectionModel 
     {
