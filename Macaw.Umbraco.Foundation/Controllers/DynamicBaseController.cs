@@ -32,13 +32,11 @@ namespace Macaw.Umbraco.Foundation.Controllers
             Repository = rep;
         }
 
-		[DonutOutputCache(Duration = 86400, VaryByCustom="url")]
+		[DonutOutputCache(Duration = 86400, VaryByCustom="url", Options = OutputCacheOptions.NoCacheLookupForPosts)]
 		public virtual ActionResult Index(RenderModel model) //Template name, default is Index
 		{
 			var ret =  new DynamicModel(model.Content, Repository);
             return View(ret);
-
-
 		}
 
         //http://our.umbraco.org/documentation/Reference/Mvc/custom-controllers

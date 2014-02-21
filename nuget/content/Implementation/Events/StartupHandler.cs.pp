@@ -20,8 +20,6 @@ namespace $rootnamespace$.Implementation.Events
 			Umbraco.Core.ApplicationContext applicationContext,
 			out System.Web.Mvc.IDependencyResolver resolver)
 		{
-			//todo: http://our.umbraco.org/forum/getting-started/installing-umbraco/46674-U701-build-200-Failed-to-retrieve-data-for-application-tree-content
-
 			var builder = new ContainerBuilder();
 			builder.RegisterApiControllers(typeof(UmbracoApiController).Assembly);
 			builder.RegisterControllers(typeof(Macaw.Umbraco.Foundation.Controllers.DynamicBaseController).Assembly);

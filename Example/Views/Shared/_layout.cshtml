@@ -55,9 +55,9 @@
             <footer class="wrapper">
                 <h3>Macaw Beechaveneau Schiphol-Rijk</h3>
 				<ul>
-					@foreach(var url in Model.Homepage.SocialNetworks)
+					@foreach(var item in Model.Homepage.SocialNetworks)
 					{
-						<li><a href="@url.link">@url.title</a></li>
+						<li><a href="@item.Url">@item.Title</a></li>
 					}
 				</ul>
             </footer>

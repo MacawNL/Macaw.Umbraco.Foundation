@@ -18,15 +18,38 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 	/// </summary>
 	public class DynamicModel : DynamicObject, IPublishedContent, INullModel
 	{
-		protected DynamicPublishedContent Source;
+        protected DynamicPublishedContent Source;
 
-		public ISiteRepository Repository { get; protected set; }
+        /// <summary>
+        /// Dynamic representaion of the source / current page...
+        /// </summary>
+        public virtual dynamic Dynamic
+        {
+            get
+            {
+                return Source;
+            }
+        }
 
-		public DynamicModel(IPublishedContent source, ISiteRepository repository)
-		{
-			Source = source.AsDynamic() as DynamicPublishedContent;
-			Repository = repository;
-		}
+        public ISiteRepository Repository { get; protected set; }
+
+        public DynamicModel(IPublishedContent source, ISiteRepository repository)
+        {
+            if (source is DynamicPublishedContent)
+            {
+                Source = (DynamicPublishedContent)source;
+            }
+            else if (source is DynamicModel)
+            {
+                Source = ((DynamicModel)source).Source;
+            }
+            else
+            {
+                Source = source.AsDynamic() as DynamicPublishedContent;
+            }
+
+            Repository = repository;
+        }
 
 		public override bool TryGetMember(GetMemberBinder binder, out object result)
 		{

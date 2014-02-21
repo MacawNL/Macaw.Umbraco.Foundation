@@ -1,0 +1,117 @@
+﻿@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+<!DOCTYPE html>
+<!--[if lt IE 7]>      <html class="no-js lt-ie9 lt-ie8 lt-ie7"> <![endif]-->
+<!--[if IE 7]>         <html class="no-js lt-ie9 lt-ie8"> <![endif]-->
+<!--[if IE 8]>         <html class="no-js lt-ie9"> <![endif]-->
+<!--[if gt IE 8]><!--> <html class="no-js"> <!--<![endif]-->
+@{
+    //define model, without property converters
+    var homepage = Model.Content.AncestorOrSelf(1);
+}
+    <head>
+        <meta charset="utf-8">
+        <meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1">
+        <title>@(Model.Content.GetPropertyValue<string>("BrowserTitel"))"</title>
+        <meta name="description" content="@(Model.Content.GetPropertyValue<string>("MetaDescription"))">
+        <meta name="viewport" content="width=device-width">
+
+        <link rel="stylesheet" href="/css/normalize.min.css">
+        <link rel="stylesheet" href="/css/main.css">
+
+        <script src="/js/vendor/modernizr-2.6.2-respond-1.1.0.min.js"></script>
+    </head>
+    <body>
+        <!--[if lt IE 7]>
+            <p class="chromeframe">You are using an <strong>outdated</strong> browser. Please <a href="http://browsehappy.com/">upgrade your browser</a> or <a href="http://www.google.com/chromeframe/?redirect=true">activate Google Chrome Frame</a> to improve your experience.</p>
+        <![endif]-->
+        <div class="header-container">
+            <header class="wrapper clearfix">
+                <h1 class="title" onclick="window.location = '/'">@(homepage.GetPropertyValue<string>("Titel"))</h1>
+                <nav>
+                    <ul>
+						@foreach(var child in homepage.Children)
+						{
+							if(!child.GetPropertyValue<bool>("umbracoNaviHide"))
+							{
+								<li><a href="@child.Url">@(child.GetPropertyValue<string>("Titel"))</a></li>
+							}
+						}
+                    </ul>
+                </nav>
+            </header>
+        </div>
+
+        <div class="main-container">
+            <div class="main wrapper clearfix">
+
+                <article>
+                    @RenderSection("Main", required: true)
+                </article>
+
+
+                    @RenderSection("Side", required: false)
+                
+
+            </div> <!-- #main -->
+        </div> <!-- #main-container -->
+
+        <div class="footer-container">
+            <footer class="wrapper">
+                <h3>Macaw Beechaveneau Schiphol-Rijk</h3>
+				<ul>
+                    @{
+                        //example legacy code:
+                        //var linklist = (Umbraco.Core.Dynamics.DynamicXml)homepage.GetPropertyValue("SocialNetworks");
+                        //var liList = new List<string[]>();
+
+                        //foreach (var item in linklist)
+                        //{
+                        //    int nodeId;
+                        //    if (int.TryParse(item.BaseElement.Attribute("link").Value, out nodeId))
+                        //    {
+                        //        liList.Add(new string[] { item.BaseElement.Attribute("link").Value, umbraco.library.NiceUrl(nodeId), "" });
+                        //    }
+                        //    else
+                        //    {
+                        //        var linkTarget = (item.BaseElement.Attribute("newwindow").Value.Equals("1")) ? " target=\"_blank\"" : string.Empty;
+
+                        //        liList.Add(new string[] { item.BaseElement.Attribute("link").Value, item.BaseElement.Attribute("title").Value, linkTarget });
+                        //    }
+                        //}
+
+                        @* //only valid when not using the Foundation converters..
+                        var linklist = (Newtonsoft.Json.Linq.JArray)homepage.GetPropertyValue("SocialNetworks");
+                        var liList = new List<string[]>();
+
+                        foreach (var item in linklist)
+                        {
+                            int nodeid;
+                            if (int.TryParse(item["link"].ToString(), out nodeid))
+                            {
+                                <p><a href="@umbraco.library.NiceUrl(nodeid)">@item["title"]</a></p>
+                            }
+                            else
+                            { 
+                                <p><a href="@item["link"]">@item["title"]</a></p>
+                            }
+                        }*@
+                    }
+				</ul>
+            </footer>
+        </div>
+
+        <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+        <script>window.jQuery || document.write('<script src="/js/vendor/jquery-1.10.1.min.js"><\/script>')</script>
+
+        <script src="js/main.js"></script>
+
+        <script>
+        	var _gaq = [['_setAccount', 'UA-XXXXX-X'], ['_trackPageview']];
+        	(function (d, t) {
+        		var g = d.createElement(t), s = d.getElementsByTagName(t)[0];
+        		g.src = '//www.google-analytics.com/ga.js';
+        		s.parentNode.insertBefore(g, s)
+        	}(document, 'script'));
+        </script>
+    </body>
+</html>

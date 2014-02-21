@@ -18,10 +18,11 @@
 			<dependency id="Autofac" version="3.2.0"/>
 			<dependency id="Autofac.Mvc4" version="3.1.0"  />
 			<dependency id="Autofac.WebApi" version="3.1.0"  />
-			<dependency id="UmbracoCms.Core" version="7.0.1"  />
+			<dependency id="UmbracoCms.Core" version="7.0.3"  />
 		</dependencies>
 	</metadata>
 	<files>
 		<file src="..\nuget\content\Implementation\**\*.*" target="content\Implementation" />
+    <file src="\bin\release\Macaw.Umbraco.Foundation.dll" target="lib\net45\Macaw.Umbraco.Foundation.dll" />
 	</files>
 </package>

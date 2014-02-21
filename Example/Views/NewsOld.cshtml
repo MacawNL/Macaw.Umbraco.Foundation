@@ -1,0 +1,31 @@
+@using Umbraco.Core
+@inherits Umbraco.Web.Mvc.UmbracoTemplatePage
+
+@{
+	Layout = "~/Views/Shared/_layoutOld.cshtml";
+}
+
+@section Main
+{
+	<header>
+        <h1>Typed Example @(Model.Content.GetPropertyValue<string>("Title"))</h1>
+        @{
+            var content = ApplicationContext.Current.Services.ContentService.GetById(Model.Content.Id);
+            DateTime date;
+
+            if (content.ReleaseDate == null)
+            {
+                date = Model.Content.UpdateDate;
+            }
+            else
+            {
+                date = content.ReleaseDate.Value;
+            }
+}
+        <i>- @date.ToShortDateString() - @(Model.Content.GetPropertyValue<string>("Title"))</i>
+		u: @Model.Content.UpdateDate
+    </header>
+	<section>
+		@Html.Raw(Model.Content.GetPropertyValue<string>("MainBody"))
+	</section>
+}

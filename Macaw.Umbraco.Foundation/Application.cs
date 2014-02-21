@@ -11,11 +11,23 @@ namespace Macaw.Umbraco.Foundation
 	public class Application : UmbracoApplication
 	{
 		public override string GetVaryByCustomString(HttpContext context, string custom)
-		{
-			if (custom.ToLower() == "url")
-				return context.Request.Url.AbsoluteUri;
+        {
+            string[] keys = custom.ToLower().Split(new char[] { ',', ';' });
+            string ret = string.Empty;
 
-			return base.GetVaryByCustomString(context, custom);
-		}
+            foreach (var key in keys)
+            {
+
+                if (key == "url")
+                    ret = string.Format("url={0};{1}", context.Request.Url.AbsoluteUri, ret);
+                
+                //any future keys...
+            }
+
+            if (!string.IsNullOrWhiteSpace(ret))
+                return ret;
+            else
+                return base.GetVaryByCustomString(context, custom);
+        }
 	}
 }

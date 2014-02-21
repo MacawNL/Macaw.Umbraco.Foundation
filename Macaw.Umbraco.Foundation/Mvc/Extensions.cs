@@ -82,11 +82,22 @@ namespace Macaw.Umbraco.Foundation.Mvc
 			return source.Substring(0, maxLength);
 		}
 
-		public static MvcHtmlString ToJson(this HtmlHelper html, object obj)
-		{
-			var ret = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
-			return MvcHtmlString.Create(ret);
-		}
+        public static MvcHtmlString ToJson(this HtmlHelper html, object obj)
+        {
+            if (obj is IPublishedContent)
+            {
+                return ToJson(html, (IPublishedContent)obj);
+            }
+            else if (obj is IEnumerable<IPublishedContent>)
+            {
+                return ToJson(html, (IEnumerable<IPublishedContent>)obj);
+            }
+            else
+            {
+                var ret = Newtonsoft.Json.JsonConvert.SerializeObject(obj);
+                return MvcHtmlString.Create(ret);
+            }
+        }
 
 		public static MvcHtmlString ToJson(this HtmlHelper html, IPublishedContent content, string[] properties = null, bool includeHiddenItems = true)
 		{
