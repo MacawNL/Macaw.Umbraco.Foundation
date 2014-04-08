@@ -1,38 +1,39 @@
-﻿using Macaw.Umbraco.Foundation.Core;
-using Macaw.Umbraco.Foundation.Core.Models;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿using System;
 using Umbraco.Core;
 using Umbraco.Core.Dynamics;
-using Umbraco.Core.Models;
 using Umbraco.Core.Models.PublishedContent;
-using Umbraco.Core.PropertyEditors;
-using Umbraco.Core.Services;
-using Umbraco.Web;
+
 
 namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 {
-    public class ContentPicker : BaseConverter
+    public class ContentPicker : BaseConverter, IConverter
     {
 		public override bool IsConverter(PublishedPropertyType propertyType)
 		{
-			return Constants.PropertyEditors.ContentPickerAlias.Equals(propertyType.PropertyEditorAlias);
+		    return IsConverter(propertyType.PropertyEditorAlias);
 		}
+
+        public bool IsConverter(string editoralias)
+        {
+            return Constants.PropertyEditors.ContentPickerAlias.Equals(editoralias);
+        }
 
 		public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
 		{
-			if (source != null && !source.ToString().IsNullOrWhiteSpace())
-			{
-				var content = Repository.FindById(Convert.ToInt32(source));
-
-				if(content != null)
-					return content;
-			}
-			
-			return DynamicNull.Null;
+		    return ConvertDataToSource(source);
 		}
+
+        public object ConvertDataToSource(object source)
+        {
+            if (source != null && !source.ToString().IsNullOrWhiteSpace())
+            {
+                var content = Repository.FindById(Convert.ToInt32(source));
+
+                if (content != null)
+                    return content;
+            }
+
+            return DynamicNull.Null;
+        }
     }
 }

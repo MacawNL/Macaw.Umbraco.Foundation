@@ -2,49 +2,29 @@
 using System.Collections.Generic;
 using System.Dynamic;
 using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using umbraco.cms.businesslogic.macro;
-using Umbraco.Core.Dynamics;
-using Umbraco.Core;
+using Umbraco.Core.Models;
 
 namespace Macaw.Umbraco.Foundation.Core.Models
 {
-	public class DynamicMacroModel : DynamicObject, INullModel
+    public class DynamicMacroModel : DynamicObject
     {
-        protected IEnumerable<MacroPropertyModel> Source;
-        protected ISiteRepository Repository;
+        public IMacro Macro { get; protected set; }
 
-        public DynamicMacroModel(IEnumerable<MacroPropertyModel> source, ISiteRepository repository)
+        public IEnumerable<MacroPropertyModel> Source  { get; protected set; }
+        public ISiteRepository Repository { get; protected set; }
+
+        public DynamicMacroModel(IMacro macro, IEnumerable<MacroPropertyModel> propertyValues, ISiteRepository repository)
         {
-            Source = source;
+            Source = propertyValues;
+            Macro = macro;
             Repository = repository;
         }
 
         public override bool TryGetMember(GetMemberBinder binder, out object result)
         {
             var property = Source.FirstOrDefault(s => s.Key.Equals(binder.Name));
-
-			if (property != null)
-			{
-				switch (property.Type)
-				{
-					case Constants.PropertyEditors.ContentPickerAlias:
-						result = Repository.FindById(int.Parse(property.Value));
-						break;
-					case Constants.PropertyEditors.MediaPickerAlias:
-						result = Repository.FindMediaById(int.Parse(property.Value));
-						break;
-					default:
-						result = property.Value;
-						break;
-				}
-
-				if (result == null) //convert null to dynamicnull
-					result = DynamicNull.Null;
-			}
-			else
-				result = DynamicNull.Null;
+            result = Repository.GetPropertyValue(property);
 
             return true;
         }
@@ -53,5 +33,5 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 		{
 			return false;
 		}
-	}
+    }
 }

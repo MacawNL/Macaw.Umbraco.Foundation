@@ -43,8 +43,9 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
-    <Reference Include="Autofac">
-      <HintPath>..\packages\Autofac.3.2.0\lib\net40\Autofac.dll</HintPath>
+    <Reference Include="Autofac, Version=3.3.0.0, Culture=neutral, PublicKeyToken=17863af14b0044da, processorArchitecture=MSIL">
+      <SpecificVersion>False</SpecificVersion>
+      <HintPath>..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
     </Reference>
     <Reference Include="Autofac.Integration.Mvc">
       <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
@@ -283,12 +284,13 @@
     <None Include="_bin_deployableAssemblies\x86\Microsoft.VC90.CRT\Microsoft.VC90.CRT.manifest" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Implementation\Controllers\News.cs" />
+    <Compile Include="Implementation\Controllers\ContentController.cs" />
     <Compile Include="Implementation\Controllers\ListingController.cs" />
     <Compile Include="Implementation\Controllers\SearchController.cs" />
     <Compile Include="Implementation\Events\StartupHandler.cs" />
     <Compile Include="Implementation\Forms\Contact.cs" />
     <Compile Include="Implementation\SurfaceControllers\PersonSurfaceController.cs" />
+    <Compile Include="Implementation\ViewModels\ContentViewModel.cs" />
     <Compile Include="Implementation\ViewModels\Person.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>

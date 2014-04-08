@@ -40,6 +40,12 @@
     <Prefer32Bit>false</Prefer32Bit>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Autofac">
+      <HintPath>..\packages\Autofac.3.3.1\lib\net40\Autofac.dll</HintPath>
+    </Reference>
+    <Reference Include="Autofac.Integration.Mvc">
+      <HintPath>..\packages\Autofac.Mvc4.3.1.0\lib\net40\Autofac.Integration.Mvc.dll</HintPath>
+    </Reference>
     <Reference Include="AutoMapper">
       <HintPath>..\packages\AutoMapper.3.0.0\lib\net40\AutoMapper.dll</HintPath>
     </Reference>
@@ -236,10 +242,12 @@
   </Choose>
   <ItemGroup>
     <Compile Include="Arrange.cs" />
+    <Compile Include="BaseTestClass.cs" />
     <Compile Include="ContainerBaseControllerTest.cs" />
     <Compile Include="MvcExtensionsTest.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="SearchBaseControllerTest.cs" />
+    <Compile Include="StubLifetimeScopeProvider.cs" />
   </ItemGroup>
   <ItemGroup>
     <ProjectReference Include="..\Macaw.Umbraco.Foundation\Macaw.Umbraco.Foundation.csproj">

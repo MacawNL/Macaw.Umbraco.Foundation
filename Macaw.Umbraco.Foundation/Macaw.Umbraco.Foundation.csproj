@@ -263,6 +263,7 @@
     <Compile Include="Core\INullModel.cs" />
     <Compile Include="Core\IPager.cs" />
     <Compile Include="Core\ISiteRepository.cs" />
+    <Compile Include="Core\Mapper.cs" />
     <Compile Include="Core\Models\DynamicCollectionModel.cs" />
     <Compile Include="Core\Models\DynamicMacroModel.cs" />
     <Compile Include="Core\Models\DynamicMediaModel.cs" />
@@ -274,8 +275,10 @@
     <Compile Include="Core\Settings.cs" />
     <Compile Include="Infrastructure\Converters\BaseConverter.cs" />
     <Compile Include="Infrastructure\Converters\ContentPicker.cs" />
+    <Compile Include="Infrastructure\Converters\IConverter.cs" />
     <Compile Include="Infrastructure\Converters\MacroContainer.cs" />
     <Compile Include="Infrastructure\Converters\MediaPicker.cs" />
+    <Compile Include="Infrastructure\Converters\Models\DynamicMacroModelHtmlProxy.cs" />
     <Compile Include="Infrastructure\Converters\RelatedLinks.cs" />
     <Compile Include="Mvc\DynamicMacroViewPage.cs" />
     <Compile Include="Mvc\Extensions.cs" />
@@ -300,7 +303,7 @@
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
   <PropertyGroup>
     <PostBuildEvent>
-</PostBuildEvent>
+    </PostBuildEvent>
   </PropertyGroup>
   <Import Project="$(SolutionDir)\.nuget\NuGet.targets" Condition="Exists('$(SolutionDir)\.nuget\NuGet.targets')" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 

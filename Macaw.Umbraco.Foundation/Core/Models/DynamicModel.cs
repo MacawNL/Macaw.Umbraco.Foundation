@@ -5,6 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using Umbraco.Core.Models;
+using Umbraco.Core.Persistence.Migrations.Syntax.Update;
 using Umbraco.Web;
 using Umbraco.Web.Models;
 
@@ -23,7 +24,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
         /// <summary>
         /// Dynamic representaion of the source / current page...
         /// </summary>
-        public virtual dynamic Dynamic
+        public virtual dynamic CurrentContent
         {
             get
             {
@@ -83,20 +84,6 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			}
 		}
 
-		/// <summary>
-		/// Convert this item to a custom type that inherits from dynamic model
-		/// The class must have a 2 parameter constructor.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public T As<T>() where T : DynamicModel
-		{
-			if (this is T)
-				return this as T;
-			else
-				return (T)Activator.CreateInstance(typeof(T), this, Repository);
-		}
-
 		IPublishedContent IPublishedContent.Parent
 		{
 			get
@@ -115,88 +102,34 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 
 		#region children
 
-		public bool HasChildren(bool includeHiddenItems)
-		{
-			if (includeHiddenItems)
-				return Children.Count() > 0;
-			else
-				return Children.Where(c => c.IsVisible()).Count() > 0;
-		}
+        public virtual IEnumerable<DynamicModel> NavigationChildren
+        {
+            get
+            {
+                foreach (var item in Source.Children)
+                    if (item.IsVisible())
+                        yield return item.As<DynamicModel>();
+            }
+        }
 
-		public bool HasChildren()
-		{
-			return HasChildren(true);
-		}
-
-		/// <summary>
-		/// return all children as a "hybrid" model that inherits from Dynamic model
-		/// and has the same 2 parameter constructor.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public IEnumerable<T> ChildrenAs<T>(bool includeHiddenItems) where T : DynamicModel
-		{
-			foreach (var child in Source.Children)
-				if (includeHiddenItems || child.IsVisible())
-					yield return (T)Activator.CreateInstance(typeof(T), child, Repository);
-		}
-
-		/// <summary>
-		/// default, all children are returned.
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public IEnumerable<T> ChildrenAs<T>() where T : DynamicModel
-		{
-			return ChildrenAs<T>(true);
-		}
-
-		public virtual IEnumerable<DynamicModel> Children
-		{
-			get
-			{
-				return ChildrenAs<DynamicModel>();
-			}
-		}
+        public virtual IEnumerable<DynamicModel> Children
+        {
+            get { return Source.Children.As<DynamicModel>(); }
+        }
 
 		IEnumerable<IPublishedContent> IPublishedContent.Children
 		{
 			get { return Source.Children; }
 		}
 
-		public virtual IEnumerable<DynamicModel> Breadcrumbs
-		{
-			get
-			{
-				return BreadcrumbsAs<DynamicModel>();
-			}
-		}
-
-		/// <summary>
-		/// returns Ancestors (in the order of the lowest level first)
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="includeHiddenItems"></param>
-		/// <returns></returns>
-		public IEnumerable<T> BreadcrumbsAs<T>(bool includeHiddenItems) where T : DynamicModel
-		{
-			foreach (var anch in Source.Ancestors().OrderBy("level"))
-			{
-				if (includeHiddenItems || anch.IsVisible())
-					yield return (T)Activator.CreateInstance(typeof(T), anch, Repository);
-			}
-		}
-
-		/// <summary>
-		/// returns Ancestors (in the order of the lowest level first)
-		/// default returns hiddenitems are included
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <returns></returns>
-		public IEnumerable<T> BreadcrumbsAs<T>() where T : DynamicModel
-		{
-			return BreadcrumbsAs<T>(true);
-		}
+        public virtual IEnumerable<DynamicModel> Breadcrumbs
+        {
+            get
+            {
+                return Source.Ancestors().OrderBy("level")
+                    .Where(a => a.IsVisible()).As<DynamicModel>();
+            }
+        }
 
 		#endregion
 
