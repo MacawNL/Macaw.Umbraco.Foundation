@@ -10,6 +10,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
     {
         public string Url { get; set; }
         public string Title { get; set; }
+        public bool NewWindow { get; set; }
     }
 }
 

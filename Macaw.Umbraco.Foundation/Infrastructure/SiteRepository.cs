@@ -11,6 +11,10 @@ using Umbraco.Web.Models;
 using Macaw.Umbraco.Foundation.Core.Models;
 using Macaw.Umbraco.Foundation.Core;
 using Umbraco.Core.Dynamics;
+using System.Web.Mvc;
+using Umbraco.Core.Models.EntityBase;
+using Umbraco.Core;
+using System.Configuration;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure
 {
@@ -31,6 +35,21 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
             Service = service;
             SearchProvidername = searchProvidername;
             Helper = helper;
+        }
+
+        /// <summary>
+        /// Get home page
+        /// </summary>
+        /// <returns></returns>
+        public DynamicModel GetHomePage()
+        {
+            var children = Service.GetChildren(-1);
+            if(children != null)
+            {
+                var content = children.FirstOrDefault(n => n.ContentType.Alias.Equals(ConfigurationManager.AppSettings["Macaw.Umbraco.Foundation.UmbracoHomeDocumentType"], StringComparison.InvariantCultureIgnoreCase));
+                return FindById(content.Id);
+            }
+            return null;
         }
 
         /// <summary>
@@ -125,6 +144,7 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 		{
 			//todo: move this part to the repository aswell.
 			var macro = umbraco.cms.businesslogic.macro.Macro.GetById(id);
+
 			var macroModel = new umbraco.cms.businesslogic.macro.MacroModel(macro);
 
 			var source = values.Join(macroModel.Properties,

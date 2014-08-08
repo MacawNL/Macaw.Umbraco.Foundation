@@ -11,6 +11,12 @@ namespace Macaw.Umbraco.Foundation.Core
     {
 		string Translate(string key);
 
+        /// <summary>
+        /// Get home page
+        /// </summary>
+        /// <returns></returns>
+        DynamicModel GetHomePage();
+
 		/// <summary>
 		/// Find the macro en return it with content.
 		/// </summary>
