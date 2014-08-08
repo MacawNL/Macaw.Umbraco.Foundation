@@ -30,8 +30,16 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 				switch (property.Type)
 				{
 					case Constants.PropertyEditors.ContentPickerAlias:
-						result = Repository.FindById(int.Parse(property.Value));
-						break;
+				        int id = 0;
+				        if (int.TryParse(property.Value, out id))
+                        {
+                            result = Repository.FindById(id);
+				        }
+				        else
+				        {
+				            result = null;
+				        }
+                        break;
 					case Constants.PropertyEditors.MediaPickerAlias:
 						result = Repository.FindMediaById(int.Parse(property.Value));
 						break;

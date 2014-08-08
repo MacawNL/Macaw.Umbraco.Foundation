@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Configuration;
 using System.Dynamic;
 using System.Linq;
 using System.Text;
@@ -18,6 +19,7 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 	/// </summary>
 	public class DynamicModel : DynamicObject, IPublishedContent, INullModel
 	{
+        public UmbracoHelper Helper = new UmbracoHelper(UmbracoContext.Current);
         protected DynamicPublishedContent Source;
 
         /// <summary>
@@ -57,11 +59,17 @@ namespace Macaw.Umbraco.Foundation.Core.Models
 			return ret;
 		}
 
+        private DynamicModel homePage;
+
 		public virtual DynamicModel Homepage
 		{
 			get
 			{
-				return new DynamicModel(Source.AncestorOrSelf(1), Repository);
+                if(homePage == null)
+                {
+                    homePage = Repository.GetHomePage();
+                }
+                return homePage;
 			}
 		}
 

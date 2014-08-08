@@ -1,20 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Web;
-using System.Web.Mvc;
-using System.Web.UI;
-using Umbraco.Web;
+﻿using System.Web.Mvc;
 using Umbraco.Web.Models;
 using Umbraco.Web.Mvc;
-using Macaw.Umbraco.Foundation.Infrastructure;
-using Umbraco.Core.Dynamics;
-using Umbraco.Core.Models;
-using System.Globalization;
 using Macaw.Umbraco.Foundation.Mvc;
 using Macaw.Umbraco.Foundation.Core;
 using Macaw.Umbraco.Foundation.Core.Models;
 using DevTrends.MvcDonutCaching;
+using Macaw.Umbraco.Foundation.Caching;
 
 namespace Macaw.Umbraco.Foundation.Controllers
 {
@@ -32,7 +23,7 @@ namespace Macaw.Umbraco.Foundation.Controllers
             Repository = rep;
         }
 
-		[DonutOutputCache(Duration = 86400, VaryByCustom="url", Options = OutputCacheOptions.NoCacheLookupForPosts)]
+        [CustomDonutOutputCache(Duration = 86400, VaryByCustom = "url", Options = OutputCacheOptions.NoCacheLookupForPosts)]
 		public virtual ActionResult Index(RenderModel model) //Template name, default is Index
 		{
 			var ret =  new DynamicModel(model.Content, Repository);

@@ -45,7 +45,7 @@ namespace Macaw.Umbraco.Foundation.Events
 			//nothing
 		}
 
-		public void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
+		public virtual void OnApplicationStarting(UmbracoApplicationBase umbracoApplication, ApplicationContext applicationContext)
 		{
 			ContentService.Published += ContentPublished;
 			ContentService.UnPublished += ContentPublished;
@@ -70,7 +70,7 @@ namespace Macaw.Umbraco.Foundation.Events
 			out IDependencyResolver resolver);
 
 		#region Cache management
-
+        
 		private void ContentPublished(global::Umbraco.Core.Publishing.IPublishingStrategy sender, global::Umbraco.Core.Events.PublishEventArgs<IContent> e)
 		{
 			ClearCache();
