@@ -11,7 +11,7 @@ Foundation library used at Macaw Netherlands. Some features are:
 - "Distributed" file caching with MvcDonutCaching
 - Several Html helpers like ToJson...
 
-Currently build on top of Umbraco 7.0.3
+Currently build on top of Umbraco 7.1.4
 
 ##Installation
 First create an empty website project and set the target framework to .net 4.5. Extract the Umbraco 7.0.1 files into the same directory (except the App_Code and Bin folders).

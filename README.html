@@ -1,0 +1,43 @@
+<h1>Macaw Umbraco Foundation</h1>
+
+<h3>Work in progress!</h3>
+
+<p>Foundation library used at Macaw Netherlands. Some features are:  </p>
+
+<ul>
+<li>Standard Examine Search implementation  </li>
+<li>Paged result views  </li>
+<li>Frontend developers friendly dynamic models for Templates and Macro  </li>
+<li>Basic property editor converters </li>
+<li>Testable controllers </li>
+<li>"Distributed" file caching with MvcDonutCaching</li>
+<li>Several Html helpers like ToJson...</li>
+</ul>
+
+<p>Currently build on top of Umbraco 7.1.4</p>
+
+<h2>Installation</h2>
+
+<p>First create an empty website project and set the target framework to .net 4.5. Extract the Umbraco 7.0.1 files into the same directory (except the App_Code and Bin folders).
+If not already done.</p>
+
+<p><code><br />
+PM> Install-Package Macaw.Umbraco.Foundation
+</code><br />
+<code><br />
+PM> Install-Package Macaw.Umbraco.Foundation -IncludePrerelease
+</code></p>
+
+<p>Currently only available as pre release version.</p>
+
+<h2>Examples and documentation</h2>
+
+<p>Both the example project and the nuget package only use the Umbraco Core libraries. 
+To run a website follow the instructions by ben-morris to setup and run your project. (In case of the example project don't overwrite any file)</p>
+
+<p>http://www.ben-morris.com/using-umbraco-6-to-create-an-asp-net-mvc-4-web-applicatio  </p>
+
+<ul>
+<li>The example database username is "admin" and the password is "password".  </li>
+<li>The nuget package and the example project both use Autofac. See the implementation folder for more information and / or customization. </li>
+</ul>
