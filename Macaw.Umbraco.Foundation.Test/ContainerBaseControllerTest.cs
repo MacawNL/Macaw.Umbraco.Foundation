@@ -12,10 +12,10 @@ using System.Web;
 using System.Web.Mvc;
 using System.Linq;
 
-namespace Website.Test
+namespace Macaw.Umbraco.Foundation.Test
 {
 	[TestClass]
-    public class ContainerBaseControllerTest // Naming convention: Method_to_test__State_under_test__Expected_behavior
+    public class ContainerBaseControllerTest : BaseTestClass // Naming convention: Method_to_test__State_under_test__Expected_behavior
 	{
 		[TestMethod]
 		public void Container__NoChilds__Total_results_equals_ResultsCount()

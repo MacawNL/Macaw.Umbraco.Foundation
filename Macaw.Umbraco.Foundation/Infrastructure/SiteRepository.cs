@@ -3,14 +3,15 @@ using Examine.LuceneEngine.Providers;
 using System;
 using System.Collections.Generic;
 using System.Linq;
-using System.Web;
+using Macaw.Umbraco.Foundation.Infrastructure.Converters;
+using umbraco.cms.businesslogic.macro;
 using Umbraco.Core.Models;
 using Umbraco.Core.Services;
 using Umbraco.Web;
-using Umbraco.Web.Models;
 using Macaw.Umbraco.Foundation.Core.Models;
 using Macaw.Umbraco.Foundation.Core;
 using Umbraco.Core.Dynamics;
+using System.Reflection;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure
 {
@@ -18,17 +19,20 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
     {
         //protected IMediaService MediaService;
         protected IContentService Service;
+        protected IMacroService MacroService;
+
         protected UmbracoHelper Helper;
         public string SearchProvidername { get; private set; }
 
-        public SiteRepository(IContentService service, UmbracoHelper helper)
-			: this(service, helper, "ExternalSearcher") //use umbraco default searcher.
+        public SiteRepository(IContentService service, IMacroService macroService, UmbracoHelper helper)
+			: this(service, macroService, helper, "ExternalSearcher") //use umbraco default searcher.
 		{
 		}
 
-        public SiteRepository(IContentService service, UmbracoHelper helper, string searchProvidername)
+        public SiteRepository(IContentService service, IMacroService macroService, UmbracoHelper helper, string searchProvidername)
         {
             Service = service;
+            MacroService = macroService;
             SearchProvidername = searchProvidername;
             Helper = helper;
         }
@@ -121,17 +125,15 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 			return Helper.GetDictionaryValue(key);
 		}
 		
-		public DynamicMacroModel FindMacroById(int id, IDictionary<string, object> values)
+		public DynamicMacroModel FindMacroByAlias(string alias, int pageId, IDictionary<string, object> values)
 		{
-			//todo: move this part to the repository aswell.
-			var macro = umbraco.cms.businesslogic.macro.Macro.GetById(id);
-			var macroModel = new umbraco.cms.businesslogic.macro.MacroModel(macro);
+		    var macro = MacroService.GetByAlias(alias);
 
-			var source = values.Join(macroModel.Properties,
-				mod => mod.Key, mm => mm.Key,
-				(mod, mm) => new umbraco.cms.businesslogic.macro.MacroPropertyModel(mod.Key, mod.Value.ToString(), mm.Type, mm.CLRType));
+            var propertyValues = values.Join(macro.Properties,
+                val => val.Key, prop => prop.Alias,
+                (val, prop) => new MacroPropertyModel(val.Key, val.Value.ToString(), prop.EditorAlias, null));
 
-			return new DynamicMacroModel(source, this);
+			return new DynamicMacroModel(macro, propertyValues, this);
 		}
 
 		public string FriendlyUrl(IPublishedContent content)
@@ -143,5 +145,30 @@ namespace Macaw.Umbraco.Foundation.Infrastructure
 		{
 			return Helper.NiceUrlWithDomain(id);
 		}
+
+        public object GetPropertyValue(MacroPropertyModel property) 
+        {
+            if (property != null)
+            {
+                Assembly assembly = typeof(IConverter).Assembly;
+                var types = assembly.GetTypes().Where(type => type != typeof(IConverter) && typeof(IConverter).IsAssignableFrom(type)).ToList();
+
+                foreach (var type in types)
+                {
+                    var instance = (IConverter) Activator.CreateInstance(type);
+                    if (instance.IsConverter(property.Type))
+                    {
+                        return instance.ConvertDataToSource(property.Value);
+                    }
+                }
+
+                if (property.Value == null) //convert null to dynamicnull
+                    return DynamicNull.Null;
+                else //no converter found, return property value.
+                    return property.Value;
+            }
+            else
+                return DynamicNull.Null;
+        }
 	}
 }

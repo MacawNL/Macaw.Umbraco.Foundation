@@ -1,8 +1,5 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using Umbraco.Core;
 using Umbraco.Web.Macros;
 using Umbraco.Core.Models;
 using Macaw.Umbraco.Foundation.Core.Models;
@@ -13,12 +10,12 @@ namespace Macaw.Umbraco.Foundation.Mvc
 {
     public class DynamicMacroViewPage : PartialViewMacroPage
 	{
-		public ISiteRepository Repository {get; set;}
+		public ISiteRepository Repository {get; private set;}
 
         public DynamicMacroViewPage()
             : base()
         {
-            
+            Repository = DependencyResolver.Current.GetService<ISiteRepository>();
         }
 
 		private dynamic _currentPage;
@@ -46,8 +43,7 @@ namespace Macaw.Umbraco.Foundation.Mvc
             {
 				if (_macro == null)
 				{
-					var repo = DependencyResolver.Current.GetService<ISiteRepository>();
-					_macro = repo.FindMacroById(Model.MacroId, Model.MacroParameters);
+					_macro = Repository.FindMacroByAlias(Model.MacroAlias, (int)CurrentPage.Id, Model.MacroParameters);
 				}
 
 				return _macro;

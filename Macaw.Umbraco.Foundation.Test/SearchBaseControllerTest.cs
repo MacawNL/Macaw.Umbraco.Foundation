@@ -8,14 +8,16 @@ using System.Collections.Generic;
 using Macaw.Umbraco.Foundation.Controllers;
 using Macaw.Umbraco.Foundation.Core;
 using System.Globalization;
-using System.Web;
+using Autofac.Integration.Mvc;
 using System.Web.Mvc;
 using System.Linq;
+using Autofac;
+using Umbraco.Web.WebApi;
 
-namespace Website.Test
+namespace Macaw.Umbraco.Foundation.Test
 {
 	[TestClass]
-    public class SearchControllerTest // Naming convention: Method_to_test__State_under_test__Expected_behavior
+    public class SearchControllerTest : BaseTestClass // Naming convention: Method_to_test__State_under_test__Expected_behavior
 	{
 		[TestMethod]
 		public void Search__NoResultsInRepository__Total_results_equals_ResultsCount()

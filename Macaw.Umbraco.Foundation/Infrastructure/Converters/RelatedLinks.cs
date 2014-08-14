@@ -10,14 +10,24 @@ using Umbraco.Core.Models.PublishedContent;
 
 namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
 {
-    public class RelatedLinks : BaseConverter
+    public class RelatedLinks : BaseConverter, IConverter
     {
         public override bool IsConverter(PublishedPropertyType propertyType)
         {
-            return Constants.PropertyEditors.RelatedLinksAlias.Equals(propertyType.PropertyEditorAlias);
+            return IsConverter(propertyType.PropertyEditorAlias);
+        }
+
+        public bool IsConverter(string editoralias)
+        {
+            return Constants.PropertyEditors.RelatedLinksAlias.Equals(editoralias);
         }
 
         public override object ConvertDataToSource(PublishedPropertyType propertyType, object source, bool preview)
+        {
+            return ConvertDataToSource(source);
+        }
+
+        public object ConvertDataToSource(object source)
         {
             var ret = new List<UrlModel>(); //return value
             var arr = Newtonsoft.Json.JsonConvert.DeserializeObject(source.ToString()) as Newtonsoft.Json.Linq.JArray;
