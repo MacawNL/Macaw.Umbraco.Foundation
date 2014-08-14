@@ -52,25 +52,6 @@ namespace Macaw.Umbraco.Foundation.Mvc
 
 			//todo: auto add items into the dictionary when a specific boolean is set in the webconfig.
 		}
-		/// <summary>
-		/// Turn your IPublished content into a class that inherits from dynamic model
-		/// The class must have a 2 parameter constructur (IPublishedContent source, ISiteRepository repository)
-		/// </summary>
-		/// <typeparam name="T"></typeparam>
-		/// <param name="content"></param>
-		/// <returns></returns>
-		public static T As<T>(this IPublishedContent content) where T : DynamicModel
-		{
-			ISiteRepository repo;
-
-			var dyn = content as DynamicModel;
-			if (dyn != null) //keep using already defined repository.
-				repo = dyn.Repository;
-			else //get repository from service locator.
-				repo = DependencyResolver.Current.GetService<ISiteRepository>();
-				
-			return (T)Activator.CreateInstance(typeof(T), content, repo);
-		}
 
 		public static string LimitLength(this string source, int maxLength)
 		{

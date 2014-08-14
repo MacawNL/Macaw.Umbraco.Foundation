@@ -1,5 +1,6 @@
 ﻿using Macaw.Umbraco.Foundation.Core;
 using Macaw.Umbraco.Foundation.Core.Models;
+using Umbraco.Core;
 using Moq;
 using System;
 using System.Collections.Generic;
@@ -11,7 +12,7 @@ using Umbraco.Core.Models;
 using Umbraco.Web.Models;
 
 
-namespace Website.Test
+namespace Macaw.Umbraco.Foundation.Test
 {
 	/// <summary>
 	/// Arrange helper class, contains some default mocks and datasources
@@ -64,7 +65,7 @@ namespace Website.Test
                 {
                     Property("title", name).Object,
                     Property("mainBody", "Lorem ipsum dolor sit amet, consectetur adipiscing elit. Etiam gravida vehicula eleifend. Aenean dapibus ligula nisl, eget faucibus ligula vehicula non. Nullam pellentesque rhoncus rhoncus. Donec at ipsum mi. Phasellus eget augue eu lectus placerat lacinia. Sed justo libero, facilisis vitae lectus ut, venenatis interdum dui. In at tincidunt arcu, sit amet egestas elit. Vestibulum ac scelerisque augue. Aenean ut sagittis lacus, in aliquam nisi. Etiam ac massa nec purus malesuada sodales et sed neque. Vestibulum ante ipsum primis in faucibus orci luctus et ultrices posuere cubilia Curae").Object,
-                    Property(Umbraco.Core.Constants.Conventions.Content.NaviHide, umbracoNaviHide).Object
+                    Property(Constants.Conventions.Content.NaviHide, umbracoNaviHide).Object
                 };
 
 			if (properties != null) //and add custom properties.

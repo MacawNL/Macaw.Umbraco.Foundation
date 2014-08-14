@@ -29,6 +29,7 @@ namespace Website.Implementation.Events
 
 			builder.Register(s => new SiteRepository(
 				applicationContext.Services.ContentService,
+                applicationContext.Services.MacroService,
 				new UmbracoHelper(UmbracoContext.Current)))
 					.As<ISiteRepository>()
 					.InstancePerHttpRequest();

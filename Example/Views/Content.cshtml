@@ -1,3 +1,4 @@
+@model Example.Implementation.ViewModels.ContentViewModel
 @{
 	Layout = "~/Views/Shared/_layout.cshtml";
 }
@@ -13,7 +14,22 @@
 
         <i>@Model.Intro</i>
     </header>
-	<section>
-		@Model.MainBody
-	</section>
+    <section>
+        @Model.MainBody
+        
+        <hr/>
+        
+        @* for demo purpose only...
+        if (Model.Intro.Length < 110)
+        {
+            <p>@Model.Intro</p>
+        }
+        else
+        {
+            <p>@Model.Intro.Substring(0, 110)</p>
+        }
+        *@
+
+        @Model.MiniIntro
+    </section>
 }
