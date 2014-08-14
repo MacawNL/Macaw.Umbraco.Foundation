@@ -40,7 +40,8 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
                     ret.Add(new UrlModel
                     {
                         Title = item["title"].ToString(),
-                        Url = Repository.FriendlyUrl(id)
+                        Url = Repository.FriendlyUrl(id),
+                        NewWindow = (item["newWindow"].ToString() == "1")
                     });
                 }
                 else //external link
@@ -48,7 +49,8 @@ namespace Macaw.Umbraco.Foundation.Infrastructure.Converters
                     ret.Add(new UrlModel
                     {
                         Title = item["title"].ToString(),
-                        Url = item["link"].ToString()
+                        Url = item["link"].ToString(),
+                        NewWindow = (bool)item["newWindow"]
                     });
                 }
             }
